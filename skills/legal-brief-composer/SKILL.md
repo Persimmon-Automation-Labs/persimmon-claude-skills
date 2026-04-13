@@ -341,7 +341,7 @@ export async function composeBrief(processId: string, peçaType: BriefOutline["p
 
 ## Related skills
 
-- `claude-sdk-wrapper` — provides `callClaude({ task: "compose-brief" })` with caching.
+- `anthropic-sdk-wrapper` — provides `callClaude({ task: "compose-brief" })` with caching.
 - `prompt-library` — hosts `briefOutlinePrompt`, `briefSectionPrompt`, `OUTLINE_TOOL`.
 - `rag-retrieval` — provides `retrieveForComposition` returning chunks with IDs.
 - `portuguese-legal-prompting` — Brazilian legal register and terminology fidelity.

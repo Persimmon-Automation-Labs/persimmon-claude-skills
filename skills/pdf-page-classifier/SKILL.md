@@ -387,7 +387,7 @@ Progress goes to a Postgres `Job` table the UI polls, or an SSE stream.
 
 ## Related skills
 
-- `claude-sdk-wrapper` — provides `callClaude` with retries, caching, cost logs.
+- `anthropic-sdk-wrapper` — provides `callClaude` with retries, caching, cost logs.
 - `prompt-library` — hosts `pageClassifierPrompt`, `PAGE_CLASSIFIER_TOOL`, `PAGE_CLASSIFIER_SYSTEM`.
 - `portuguese-legal-prompting` — pt-BR register rules for the classifier's system prompt.
 - `legal-brief-composer` — downstream consumer of `ProcessDocument` rows via the analyzer step.

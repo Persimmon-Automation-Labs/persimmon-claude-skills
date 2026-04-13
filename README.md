@@ -46,7 +46,7 @@ See [CLAUDE.md](CLAUDE.md) for stack conventions and gotchas that every skill he
 ### AI / Claude
 | Skill | Triggers | What it does |
 |---|---|---|
-| `claude-sdk-wrapper` | Anthropic SDK, Claude call, retry | `src/lib/ai/claude.ts` wrapper — retries, caching, model routing |
+| `anthropic-sdk-wrapper` | Anthropic SDK, Claude call, retry | `src/lib/ai/claude.ts` wrapper — retries, caching, model routing |
 | `prompt-library` | prompt, prompt template, ai/prompts.ts | Centralized prompt templates — no inline prompts elsewhere |
 | `rag-retrieval` | RAG, embeddings, retrieval, chunk | Chunking, embedding, pgvector retrieval, reranking, citation grounding |
 | `legal-brief-composer` | brief generation, peça, citation | RAG-grounded brief generation — cites-only discipline, no hallucinations |

@@ -58,7 +58,7 @@ When adding a new client, document them here and in the project index.
 - All Claude calls go through `src/lib/ai/claude.ts`. Never import `@anthropic-ai/sdk` elsewhere.
 - All prompts live in `src/lib/ai/prompts.ts`. No inline prompt strings in business logic.
 - Route by model: Sonnet for classification / per-item / volume tasks; Opus only when a task genuinely needs deeper reasoning (composition, multi-doc synthesis).
-- Use prompt caching (`cache_control: { type: "ephemeral" }`) on any stable system prompt or doctrine block > 1024 tokens.
+- Use prompt caching (`cache_control: { type: "ephemeral" }`) on any stable system prompt or doctrine block that meets the per-model minimum: **Sonnet 4.6 = 2,048 tokens**, **Opus 4.6 / Haiku 4.5 = 4,096 tokens**, Sonnet 4.5 / Opus 4.1 / Sonnet 3.7 = 1,024 tokens. Below the threshold, caching silently no-ops (both `cache_creation_input_tokens` and `cache_read_input_tokens` stay 0). Max 4 explicit breakpoints per request; longer-TTL blocks must appear before shorter-TTL blocks.
 - Persist every AI output. Never regenerate if a result already exists — expensive and non-deterministic.
 
 ### Security
@@ -121,7 +121,7 @@ For a new client, skills chain in this order:
 3. **`nextjs-project-scaffolding`** — Next.js 16 + TS + Prisma + Tailwind skeleton, env template.
 4. **`prisma-pgvector`** — schema, migrations, pgvector extension, HNSW index.
 5. **`nextauth-credentials`** — auth, `trustHost`, middleware.
-6. **`claude-sdk-wrapper`** + **`prompt-library`** — `src/lib/ai/` baseline.
+6. **`anthropic-sdk-wrapper`** + **`prompt-library`** — `src/lib/ai/` baseline.
 7. **`tigris-s3-uploads`** — bucket + CORS + presigned-URL flow.
 8. **`railway-deploy`** — project creation, env vars, custom domain.
 9. **`github-actions-ci`** — lint/typecheck/build pipeline.

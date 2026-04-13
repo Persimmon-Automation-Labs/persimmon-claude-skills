@@ -287,7 +287,7 @@ And the consumer MUST validate with Zod before use.
 
 ## Related skills
 
-- `claude-sdk-wrapper` — consumes every builder here via `callClaude`.
+- `anthropic-sdk-wrapper` — consumes every builder here via `callClaude`.
 - `portuguese-legal-prompting` — pt-BR register rules for all Piccino prompts.
 - `legal-brief-composer` — specific pipeline built on `briefComposerPrompt`.
 - `pdf-page-classifier` — specific pipeline built on `pageClassifierPrompt`.

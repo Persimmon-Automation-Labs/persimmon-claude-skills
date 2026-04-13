@@ -1,9 +1,9 @@
 ---
-name: claude-sdk-wrapper
+name: anthropic-sdk-wrapper
 description: Build the canonical src/lib/ai/claude.ts wrapper around @anthropic-ai/sdk for Persimmon Next.js projects. Use when scaffolding a new client project, adding AI to an existing Persimmon app, fixing retry/cost/caching issues, or refactoring direct Anthropic SDK imports out of business logic. Trigger keywords: anthropic sdk, claude client, claude.ts, callClaude, prompt caching, exponential backoff, model routing, pickModel, token accounting, streaming claude.
 ---
 
-# claude-sdk-wrapper
+# anthropic-sdk-wrapper
 
 The Persimmon standard wrapper for Anthropic's Claude SDK. Every Persimmon app funnels all Claude traffic through ONE module: `src/lib/ai/claude.ts`. No other file imports `@anthropic-ai/sdk` directly.
 
