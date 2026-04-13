@@ -27,7 +27,7 @@ src/lib/ai/
 
 1. ONE file imports `@anthropic-ai/sdk`: `src/lib/ai/claude.ts`. Enforce with an ESLint `no-restricted-imports` rule.
 2. Every Claude call goes through `callClaude()` or `streamClaude()`.
-3. System prompts ≥ 1024 tokens get `cache_control: { type: "ephemeral" }`. Below the threshold, caching is free-to-enable but wasted.
+3. Apply `cache_control: { type: "ephemeral" }` only when the cached block meets the per-model minimum (Sonnet 4.6 = 2,048; Opus 4.6 / Haiku 4.5 = 4,096; Sonnet 4.5 / Opus 4.1 / Sonnet 3.7 = 1,024). Below the threshold, caching silently no-ops. Verify via `response.usage.cache_creation_input_tokens` / `cache_read_input_tokens` — if both are 0, the threshold wasn't met. Max 4 breakpoints per request; longer-TTL (`ttl: "1h"`) blocks must appear before shorter-TTL ones.
 4. Model selection goes through `pickModel(task)`. Do not hardcode `claude-opus-*` at call sites.
 5. Log `usage.input_tokens`, `usage.output_tokens`, `usage.cache_read_input_tokens`, `usage.cache_creation_input_tokens` for every call.
 6. Prefer tool-use for structured output. JSON-mode prompts are a fallback, not a default.
