@@ -116,16 +116,16 @@ HNSW beats IVFFlat for recall + latency on most workloads < 10M rows. Build with
 
 For a new client, skills chain in this order:
 
-1. **`new-client-project`** — GitHub repo in `Persimmon-Automation-Labs`, clone, scaffold docs, register.
+1. **`meta-new-client-project`** — GitHub repo in `Persimmon-Automation-Labs`, clone, scaffold docs, register.
 2. **Scoping conversation** — narrow SOW to MVP, agree on stack deltas (if any).
-3. **`nextjs-project-scaffolding`** — Next.js 16 + TS + Prisma + Tailwind skeleton, env template.
-4. **`prisma-pgvector`** — schema, migrations, pgvector extension, HNSW index.
-5. **`nextauth-credentials`** — auth, `trustHost`, middleware.
-6. **`anthropic-sdk-wrapper`** + **`prompt-library`** — `src/lib/ai/` baseline.
-7. **`tigris-s3-uploads`** — bucket + CORS + presigned-URL flow.
-8. **`railway-deploy`** — project creation, env vars, custom domain.
-9. **`github-actions-ci`** — lint/typecheck/build pipeline.
-10. **`final-review`** — pre-delivery QA across all review dimensions.
+3. **`stack`** (mother) — Next.js 16 + TS + Tailwind skeleton conventions (`stack-server-actions`, `stack-typescript-strict`, `stack-zod-boundary`, `stack-tailwind-tokens`).
+4. **`data-prisma-pgvector`** — schema, migrations, pgvector extension, HNSW index.
+5. **`security-nextauth`** — auth, `trustHost`, middleware.
+6. **`ai-sdk-wrapper`** + **`ai-prompt-library`** — `src/lib/ai/` baseline.
+7. **`infra-s3-uploads`** — bucket + CORS + presigned-URL flow.
+8. **`infra-railway-deploy`** — project creation, env vars, custom domain.
+9. **`infra-github-ci`** — lint/typecheck/build pipeline.
+10. **`quality-final-review`** — pre-delivery QA across all review dimensions.
 
 ### Client Project Doc Conventions
 
@@ -140,6 +140,29 @@ Every client folder gets exactly:
 - `.github/workflows/ci.yml` — lint, typecheck, build
 
 **Never put** payment terms in README, architecture in README (link to CLAUDE.md), or client contact info in CLAUDE.md.
+
+## Skill Authoring (This Repo)
+
+This repo is a Claude Code skills meta-repo, organized **master → mother → child** (see [docs/decisions/0001](docs/decisions/0001-master-mother-child-structure.md)). Each skill lives at `skills/<name>/SKILL.md`; the directory name equals the `name:` frontmatter exactly.
+
+### SKILL.md format
+- Frontmatter: `name` (≤64 chars, lowercase/hyphen) and `description` (≤1024 chars, **third person**, "what it does" + "Use when…" + trigger keywords). Description is the only routing signal.
+- Body: keep under **500 lines** (Anthropic guidance). Over-cap → move detail into a one-level-deep `references/` subdir and keep SKILL.md as the navigable overview.
+
+### Structure rules
+- **Master** (`persimmon`): routes to mothers, enforces the workflow gate. One per repo.
+- **Mothers** (`workflow`, `stack`, `ai`, `data`, `infra`, `security`, `quality`, `domain-legal`, `project-meta`): brief index skills (<100 lines) — trigger, child routing table, one-screen defaults, banned anti-patterns, relationships.
+- **Children**: prefixed by mother (`stack-*`, `ai-*`, `data-*`, `infra-*`, `security-*`, `quality-*`, `legal-*`, `meta-*`, `workflow-*`). Prefix is filesystem/registry grouping only — routing is description-based.
+
+### Adding a skill
+1. Create `skills/<prefix-name>/SKILL.md` with frontmatter + body.
+2. Add a row to the owning mother's routing table.
+3. Add a row to `README.md` catalog.
+4. Regenerate the registry: `./scripts/build-registry.sh > skills.json`.
+5. Record any non-obvious structural choice as an ADR via `meta-adr-authoring`.
+
+### Distribution
+Skills ship as a plugin via marketplace (see [docs/decisions/0002](docs/decisions/0002-distribute-as-plugin-marketplace.md)). There is **no `skillSources` setting** in Claude Code — never reintroduce it. Wire a project with `scripts/install-in-project.sh`.
 
 ## When In Doubt
 

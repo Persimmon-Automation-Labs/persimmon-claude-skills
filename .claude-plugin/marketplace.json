@@ -1,0 +1,17 @@
+{
+  "name": "persimmon-labs",
+  "owner": {
+    "name": "Persimmon Automation Labs"
+  },
+  "plugins": [
+    {
+      "name": "persimmon",
+      "source": ".",
+      "description": "Persimmon Claude Code skills — master → mothers → children, with a workflow gate. Targets the Persimmon Next.js/TypeScript/Prisma/Railway stack.",
+      "version": "2.0.0",
+      "author": {
+        "name": "Persimmon Automation Labs"
+      }
+    }
+  ]
+}

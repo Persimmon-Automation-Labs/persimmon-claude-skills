@@ -1,0 +1,17 @@
+[Persimmon skills active — project type: __PROJECT_TYPE__]
+
+For any work in this repo, invoke the `persimmon` master skill first. It enforces the
+workflow gate, then routes to the right domain mother (workflow / stack / ai / data /
+infra / security / quality / domain-legal / project-meta).
+
+WORKFLOW GATE: On any non-trivial task (new file, route, Server Action, Prisma model,
+migration, prompt, dependency, or "feature/refactor" work), invoke the `workflow` mother
+FIRST — brainstorm → plan before code. On `internal-tool` projects this is required:
+no code without an approved spec in docs/specs/ and a plan in docs/plans/. On
+`marketing-site` projects, a spec is required only for new pages/sections.
+
+Trivial work (copy, one-line Tailwind, README/CLAUDE.md edits, dependency bumps, typos,
+reverting a recent commit) bypasses — go straight to the relevant domain mother.
+
+To override the gate on a legitimate fast-fix moment, type `skip workflow:` followed by
+what you want. The commit footer records `Workflow: skipped by user`.

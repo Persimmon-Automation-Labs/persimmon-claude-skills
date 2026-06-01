@@ -156,7 +156,7 @@ Cap `attempts` (e.g., 5) to avoid poison-message loops — surface to a dead-let
 
 ## Legal-Tech Specific (Brazilian Law)
 
-**Terminology reference** — see `skills/legal-domain-glossary/SKILL.md` for full glossary. Key structured-extraction targets:
+**Terminology reference** — see `skills/legal-glossary/SKILL.md` for full glossary. Key structured-extraction targets:
 - **Petição inicial** → `{autor, réu, causa_de_pedir, pedidos[], valor_da_causa}`
 - **Sentença** → `{dispositivo, data_publicação, juiz}` — `data_publicação` drives prescrição/prazos recursais
 - **Acórdão** → `{tribunal, turma, relator, ementa, voto_vencedor, data_julgamento}` — ementa is gold-standard for doctrine RAG

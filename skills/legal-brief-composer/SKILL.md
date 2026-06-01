@@ -308,7 +308,7 @@ export async function composeBrief(processId: string, peçaType: BriefOutline["p
 
 ## Tone & style
 
-- Brazilian Portuguese formal register. See `portuguese-legal-prompting` skill.
+- Brazilian Portuguese formal register. See `legal-pt-prompting` skill.
 - Third person, active voice where possible.
 - Latin legal terms allowed (ex tunc, ex nunc, data venia, ad cautelam).
 - No hedging language ("talvez", "aparentemente"). State positions.
@@ -341,8 +341,8 @@ export async function composeBrief(processId: string, peçaType: BriefOutline["p
 
 ## Related skills
 
-- `anthropic-sdk-wrapper` — provides `callClaude({ task: "compose-brief" })` with caching.
-- `prompt-library` — hosts `briefOutlinePrompt`, `briefSectionPrompt`, `OUTLINE_TOOL`.
-- `rag-retrieval` — provides `retrieveForComposition` returning chunks with IDs.
-- `portuguese-legal-prompting` — Brazilian legal register and terminology fidelity.
-- `pdf-page-classifier` — upstream pipeline producing the `Findings` this composer consumes.
+- `ai-sdk-wrapper` — provides `callClaude({ task: "compose-brief" })` with caching.
+- `ai-prompt-library` — hosts `briefOutlinePrompt`, `briefSectionPrompt`, `OUTLINE_TOOL`.
+- `ai-rag-retrieval` — provides `retrieveForComposition` returning chunks with IDs.
+- `legal-pt-prompting` — Brazilian legal register and terminology fidelity.
+- `legal-pdf-classifier` — upstream pipeline producing the `Findings` this composer consumes.
