@@ -1,6 +1,6 @@
 ---
 name: persimmon
-description: Master router for all Persimmon Automation Labs work. Invoke first on any task in a Persimmon client project — enforces the workflow gate on non-trivial work, then routes to the right domain mother (workflow, stack, ai, data, infra, security, quality, domain-legal, project-meta). The single entry point for new Claude sessions in a Persimmon repo. Trigger keywords: persimmon, where do I start, which skill, orient me, Persimmon defaults, new session in this repo.
+description: Master router for all Persimmon Automation Labs work. Invoke first on any task in a Persimmon client project — enforces the workflow gate on non-trivial work, then routes to the right domain mother (workflow, stack, frontend, backend, ai, data, infra, security, quality, client-lifecycle, domain-legal, project-meta). The single entry point for new Claude sessions in a Persimmon repo. Trigger keywords: persimmon, where do I start, which skill, orient me, Persimmon defaults, new session in this repo.
 ---
 
 # Persimmon — Master Skill
@@ -36,13 +36,16 @@ If `.claude/project-type` is missing, ask once and offer to write it (`internal-
 
 | Mother | When to invoke | Owns |
 |---|---|---|
-| `workflow` | **FIRST** on any non-trivial task — brainstorm → plan → execute → verify → debug → review → finish | 7 children: workflow-brainstorm, -plan, -execute, -verify, -debug, -code-review, -finish |
+| `workflow` | **FIRST** on any non-trivial task — brainstorm → spec-review → plan → execute → verify → debug → review → finish | 8 children: workflow-brainstorm, -spec-review, -plan, -execute, -verify, -debug, -code-review, -finish |
 | `stack` | App-code standards: Server Actions, strict TypeScript, Zod boundaries, Tailwind v4 tokens | `stack-server-actions`, `stack-typescript-strict`, `stack-zod-boundary`, `stack-tailwind-tokens` |
+| `frontend` | Any UI work: conventions, page templates, CSS/theme, responsive, tables, forms, feedback, upload UX, print | `frontend-internal-tool-conventions`, `frontend-public-site-conventions`, `frontend-page-templates`, `frontend-css-architecture`, `frontend-responsive`, `frontend-data-tables`, `frontend-form-patterns`, `frontend-feedback-system`, `frontend-file-upload`, `frontend-interaction-patterns`, `frontend-print-pdf` |
+| `backend` | Server features: webhooks, Stripe, notifications, admin panels, settings, CMS, concurrency | `backend-webhook-handler`, `backend-stripe`, `backend-notifications`, `backend-admin-panel`, `backend-settings-admin`, `backend-content-management`, `backend-commerce-concurrency` |
 | `ai` | Any Claude/LLM code: SDK wrapper, prompt library, RAG retrieval | `ai-sdk-wrapper`, `ai-prompt-library`, `ai-rag-retrieval` |
-| `data` | Prisma schema, pgvector, embeddings, HNSW, query design | `data-prisma-pgvector` |
+| `data` | Prisma schema, pgvector, embeddings, HNSW, query design, schema-design rigor, booking/availability | `data-prisma-pgvector`, `data-schema-design`, `data-booking-availability` |
 | `infra` | Railway deploy, S3 uploads, background jobs, GitHub Actions CI | `infra-railway-deploy`, `infra-s3-uploads`, `infra-background-jobs`, `infra-github-ci` |
-| `security` | Auth (NextAuth v5) and security review | `security-nextauth`, `security-review` |
-| `quality` | Pre-delivery review across dimensions + orchestration | `quality-review-performance`, `quality-review-type-safety`, `quality-review-data-layer`, `quality-review-prompt-output`, `quality-final-review` |
+| `security` | Auth (NextAuth v5), security review, runtime hardening, demo credentials | `security-nextauth`, `security-review`, `security-hardening`, `security-demo-credentials` |
+| `quality` | Pre-delivery review across dimensions + orchestration, production readiness, testing, E2E | `quality-final-review`, `quality-review-performance`, `quality-review-type-safety`, `quality-review-data-layer`, `quality-review-prompt-output`, `quality-production-readiness`, `quality-testing-validation`, `quality-playwright-e2e` |
+| `client-lifecycle` | Client engagement bookends: onboarding/brand, transactional email, SEO, analytics, handoff | `client-onboarding`, `client-transactional-email`, `client-seo`, `client-analytics`, `client-handoff` |
 | `domain-legal` | Brazilian legal RAG work (Piccino and future legal clients) | `legal-brief-composer`, `legal-pdf-classifier`, `legal-pt-prompting`, `legal-glossary` |
 | `project-meta` | Repo lifecycle, docs, ADRs, onboarding, deployment plans | `meta-new-client-project`, `meta-document-project`, `meta-project-xray`, `meta-adr-authoring`, `meta-deployment-plan`, `meta-skill-sync` |
 
@@ -51,13 +54,15 @@ If `.claude/project-type` is missing, ask once and offer to write it (`internal-
 ### "I'm starting a new client project"
 
 1. `project-meta` → `meta-new-client-project` — GitHub repo in the org, clone, scaffold docs, register
-2. Scoping conversation — narrow SOW to MVP, agree on stack deltas
-3. `stack` — Next.js 16 + TS skeleton conventions
-4. `data` → `data-prisma-pgvector` — schema, pgvector extension, HNSW index
-5. `security` → `security-nextauth` — auth, `trustHost`, middleware
-6. `ai` → `ai-sdk-wrapper` + `ai-prompt-library` — `src/lib/ai/` baseline
-7. `infra` → `infra-s3-uploads` → `infra-railway-deploy` → `infra-github-ci`
-8. `quality` → `quality-final-review` before client delivery
+2. `client-lifecycle` → `client-onboarding` — site audit, brand extraction → PROJECT-BRIEF + BRAND-GUIDE
+3. Scoping conversation — narrow SOW to MVP, agree on stack deltas
+4. `stack` + `frontend` — Next.js 16 + TS skeleton, `frontend-css-architecture` + the right conventions child by project type
+5. `data` → `data-schema-design` → `data-prisma-pgvector` — model rigor, schema, pgvector, HNSW
+6. `security` → `security-nextauth` (+ `security-hardening` for runtime protections) — auth, `trustHost`, middleware
+7. `ai` → `ai-sdk-wrapper` + `ai-prompt-library` — `src/lib/ai/` baseline
+8. `infra` → `infra-s3-uploads` → `infra-railway-deploy` → `infra-github-ci`
+9. `quality` → `quality-final-review` + `quality-production-readiness` before client delivery
+10. `client-lifecycle` → `client-handoff` — manual + training; client keeps code and keys
 
 ### "I inherited / am extending an existing project"
 

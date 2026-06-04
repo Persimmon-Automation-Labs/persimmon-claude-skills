@@ -14,7 +14,7 @@ GENERATED_AT="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 mother_for() {
   case "$1" in
     persimmon) echo "" ;;                                   # master
-    workflow|stack|ai|data|infra|security|quality|domain-legal|project-meta) echo "" ;;  # mothers
+    workflow|stack|ai|data|infra|security|quality|domain-legal|project-meta|frontend|backend|client-lifecycle) echo "" ;;  # mothers
     workflow-*) echo "workflow" ;;
     stack-*)    echo "stack" ;;
     ai-*)       echo "ai" ;;
@@ -24,6 +24,9 @@ mother_for() {
     quality-*)  echo "quality" ;;
     legal-*)    echo "domain-legal" ;;
     meta-*)     echo "project-meta" ;;
+    frontend-*) echo "frontend" ;;
+    backend-*)  echo "backend" ;;
+    client-*)   echo "client-lifecycle" ;;
     *)          echo "" ;;
   esac
 }
@@ -57,11 +60,11 @@ cat <<EOF
   "name": "persimmon-skills",
   "version": "${VERSION}",
   "generated_at": "${GENERATED_AT}",
-  "description": "Persimmon Automation Labs Claude Code skills — master, 9 mothers (workflow forces brainstorm-before-code), specialists. Next.js 16 / TypeScript / Prisma+pgvector / Anthropic SDK / NextAuth v5 / Tailwind v4 / Railway stack.",
+  "description": "Persimmon Automation Labs Claude Code skills — master, 12 mothers (workflow forces brainstorm-before-code), specialists. Next.js 16 / TypeScript / Prisma+pgvector / Anthropic SDK / NextAuth v5 / Tailwind v4 / Railway stack.",
   "repo": "https://github.com/Persimmon-Automation-Labs/persimmon-claude-skills",
   "structure": {
     "master": "persimmon",
-    "mothers": ["workflow", "stack", "ai", "data", "infra", "security", "quality", "domain-legal", "project-meta"]
+    "mothers": ["workflow", "stack", "ai", "data", "infra", "security", "quality", "domain-legal", "project-meta", "frontend", "backend", "client-lifecycle"]
   },
   "tooling": {
     "install_script": "scripts/install-in-project.sh",

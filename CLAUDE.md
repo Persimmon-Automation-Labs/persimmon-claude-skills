@@ -151,8 +151,8 @@ This repo is a Claude Code skills meta-repo, organized **master → mother → c
 
 ### Structure rules
 - **Master** (`persimmon`): routes to mothers, enforces the workflow gate. One per repo.
-- **Mothers** (`workflow`, `stack`, `ai`, `data`, `infra`, `security`, `quality`, `domain-legal`, `project-meta`): brief index skills (<100 lines) — trigger, child routing table, one-screen defaults, banned anti-patterns, relationships.
-- **Children**: prefixed by mother (`stack-*`, `ai-*`, `data-*`, `infra-*`, `security-*`, `quality-*`, `legal-*`, `meta-*`, `workflow-*`). Prefix is filesystem/registry grouping only — routing is description-based.
+- **Mothers** (`workflow`, `stack`, `frontend`, `backend`, `ai`, `data`, `infra`, `security`, `quality`, `client-lifecycle`, `domain-legal`, `project-meta`): brief index skills (<100 lines) — trigger, child routing table, one-screen defaults, banned anti-patterns, relationships.
+- **Children**: prefixed by mother (`stack-*`, `frontend-*`, `backend-*`, `ai-*`, `data-*`, `infra-*`, `security-*`, `quality-*`, `client-*`, `legal-*`, `meta-*`, `workflow-*`). Prefix is filesystem/registry grouping only — routing is description-based. The `client-*` prefix maps to the `client-lifecycle` mother.
 
 ### Adding a skill
 1. Create `skills/<prefix-name>/SKILL.md` with frontmatter + body.
