@@ -61,6 +61,14 @@ model TeamMember {
 - **Taxonomy:** for cross-cutting grouping (menu categories, dietary tags), a `Term` + `TermRelation` pair, not a free-text column.
 - **Content as data:** the public site reads these and renders through brand templates; the same records can feed JSON later (COPE).
 
+## 1b. Seeding content from source materials (PDFs, images, the old site)
+
+Real client content often arrives **trapped in PDFs or images** — a menu PDF, a printed price list, a flyer — or as copy on the old site. Capture it into the structured model; don't leave it as a downloadable file the client can't edit and crawlers can't read.
+
+- **Extract to structured seed data.** Transcribe the source (menu PDF → items with name, description, price, category, tags; story copy → content blocks) into `prisma/seed.ts` (or a typed seed JSON it loads) keyed to the models above. Money as integer cents; "add (N)" options become modifiers. The seed file is the human-reviewable source of truth for the initial load.
+- **Render responsively on-page as the primary experience.** The on-page, mobile/desktop version (read from the DB, brand-templated) is primary — accessible, indexable, client-editable. A **"view / print PDF" link to the original is secondary**, not the main way to read the content. Don't ship a page whose only menu is an embedded/linked PDF.
+- **Feeds content parity.** This is how the content-parity check (`workflow-brainstorm`) is satisfied for PDF/image-trapped content — captured and rendered, not skipped because it wasn't already HTML.
+
 ## 2. Editor experience
 
 - **Constrained rich text, never a raw-HTML box.** Offer a small set (bold/italic/lists/links/H2–H3). Free HTML is stored-XSS + layout breakage.

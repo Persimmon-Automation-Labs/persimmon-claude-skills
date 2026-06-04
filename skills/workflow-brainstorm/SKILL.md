@@ -50,6 +50,16 @@ Anything still unknown or client-blocked.
 Bullet outcomes a human can verify. (Detailed EARS criteria come in `workflow-plan`.)
 ```
 
+## Bespoke public-facing design — extra gates
+
+When the spec covers a bespoke public page (marketing home, storefront, customer-facing screen), three extra gates apply (internal/admin screens are exempt — they're deliberately templated):
+
+- **Research references first.** Before designing, pull live references and extract specific moves — see `frontend-public-site-conventions` → "Research live references before you design." Cite them in the Approach section. A bespoke layout is a *derived* decision, not a default you fell into; skipping this is what produces a generic first draft.
+- **Brand values carry provenance.** Every color/font the spec states must trace to `BRAND-GUIDE.md` — tagged `extracted from live CSS {url} {date}` (computed value, not a guess), `from client brand book`, `Persimmon scaffold default — provisional`, or `human-blocked — pending client`. A bare hex/font with no provenance is invented — fix it or mark it human-blocked. Never log a color/font that isn't in the captured brand (a past project shipped an invented navy + a font that wasn't on the site).
+- **Content parity (redesigns).** Every real content block on the old site (from `client-onboarding`'s inventory — including content trapped in PDFs/images) maps to the new design, or is explicitly flagged "dropped — confirm with client." Forward traceability for content, the way SOW coverage is for scope. Generic mockups silently drop what makes the business specific.
+
+Definition of done for the page itself: it passes the `frontend-public-site-conventions` "system test" (the anti-AI-tell self-audit). Hand references + the brand guide to any subagent that builds a screen — they don't inherit this.
+
 ## Output
 
 An approved spec at `docs/specs/YYYY-MM-DD-{topic}.md` in the client repo. On approval, hand off to `workflow-plan`.

@@ -87,6 +87,7 @@ If nothing activates: confirm the plugin is enabled (`claude plugin list`) or, f
 | Skills not activating | Plugin not enabled at this scope | `claude plugin enable persimmon --scope project` |
 | `plugin not found` | Marketplace not registered | `claude plugin marketplace add Persimmon-Automation-Labs/persimmon-claude-skills` |
 | Old skill version loading | Plugin cache stale | `claude plugin marketplace update persimmon-labs` |
+| A referenced skill seems "missing" / nonexistent | Plugin pinned to an older version — the skill was added upstream since | `claude plugin marketplace update persimmon-labs`; re-verify. **Never** conclude the skill doesn't exist and relabel it "inline methodology" — that's a stale-install signal, not a missing skill. |
 | Two skills fighting | Same name in `~/.claude/skills/` and the plugin | Remove the personal copy; the plugin is authoritative |
 | `gh`/git auth error | Repo requires org access | `gh auth switch --user renatodap`, verify org membership |
 
@@ -96,6 +97,7 @@ If nothing activates: confirm the plugin is enabled (`claude plugin list`) or, f
 - Editing skills inside a consuming project — edit in `persimmon-claude-skills` and release a new plugin version. Intentional per-project overrides go in `.claude/skills/` and must be called out in the project's `CLAUDE.md`.
 - Symlinking `.claude/` to the source repo (breaks on Windows and for teammates without the repo).
 - Copy-pasting skill bodies between projects — shared content belongs upstream.
+- Treating a skill that isn't in the available list as nonexistent and routing around it with "inline methodology" — it's a stale/disabled plugin; update and re-verify instead.
 
 ## Done
 

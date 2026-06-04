@@ -151,6 +151,27 @@ Categorically wrong: nav, hero/section CTAs, feature cards (`🚀 ✨ 💡` — 
 
 One acceptable place: user-generated content the client publishes (testimonial text where the customer used emoji). Treat as the customer's words. If emoji appear in content, wrap with `role="img"` + `aria-label`; decorative inline emoji get `aria-hidden`.
 
+## Research live references before you design (required for bespoke public pages)
+
+The antidotes below are abstract ("asymmetric editorial layouts") until you've *looked at* sites that nail them. Designing from memory lands on the median — the template. So before the first mockup, go look, like a human designer opening a dozen tabs.
+
+1. **Pull 8–12 live references** (WebFetch / web search) from curated-craft sources — Typewolf, Awwwards, SiteInspire, Godly, Land-book, One Page Love — across the client's **industry + 2–3 adjacent ones** (a legal site learns more from an editorial magazine than from ten other law-firm templates).
+2. **Extract the specific moves**, not vibes: hero structure (asymmetric split? full-bleed? type-as-layout?), type treatment, the full-bleed↔contained rhythm, how photography is handled, what gives it texture.
+3. **Find the client's ownable angle** — the true, specific story no competitor can copy (real founder narrative, named clients/cases, a heritage detail). It comes from the *business*, not the layout.
+4. **Cite the references + borrowed moves** in the spec's design rationale (`workflow-brainstorm`). A hero that's "asymmetric 7/5, photo off-edge, like ⟨ref⟩" is a derived decision; "centered hero" is a default you fell into.
+
+Do this **before** showing a first version — not as a rescue after "looks generic." Hand references to subagents too; "build the home page" with no refs produces the median.
+
+## Build on the client's real photography (don't invent imagery)
+
+On a bespoke public site the client's **real photos are usually the strongest differentiator** — the one thing no template or competitor has. Treat them as a primary design input, not end-stage decoration.
+
+- **Harvest first** — `client-onboarding` captures the photo library alongside the logo. Use the client's actual photos (existing site, provided folder, their Instagram) if you can fetch them.
+- **Read the visual signature, lock ONE treatment** — real libraries have a look (e.g. "high-key daylight on linen" + "B&W heritage"). One consistent tone/grain/contrast recipe makes a mixed phone-photo set read as one branded library.
+- **Build the layout around the photos** — full-bleed↔contained rhythm, art-directed crops, captions naming real people/places. Don't drop them into generic card slots.
+- **Never substitute stock or AI-generated imagery** (it's in the tells table). If real photos are missing, mark imagery a human-blocked open item and wireframe with labeled placeholders — don't paper over it with a gradient mesh or Spline blob.
+- `client-image-optimization` is the **downstream pipeline** (sharp, responsive variants) once art direction is set — it doesn't choose the imagery.
+
 ## Avoiding the generated-marketing look ("AI slop")
 
 What makes a public site look produced by v0/Lovable/ChatGPT in 10 minutes:
@@ -158,11 +179,11 @@ What makes a public site look produced by v0/Lovable/ChatGPT in 10 minutes:
 | Category | Tell |
 |---|---|
 | Color | Indigo→violet gradient hero · pastel rainbow accents · glassmorphism overuse |
-| Type | Inter/Geist as the only font · gradient text headline · a single italic "accent word" in Instrument Serif |
-| Layout | Centered pill badge → 64pt headline → 2 same-size CTAs → 3-up feature grid → "1-2-3 steps" → logo soup → identical pricing cards |
-| Components | `rounded-2xl` everywhere · 3-4px colored card stripe · untouched lib defaults · Sparkles next to "AI" |
-| Imagery | Spline 3D blobs · unDraw/Storyset illustrations · "person at laptop" stock · gradient meshes |
-| Copy | "Unlock the power of…" · "Transform your…" · three-word value props with no specificity |
+| Type | Inter/Geist as the only font · gradient text headline · a single italic "accent word" dropped into a heading for fake flair |
+| Layout | Centered pill badge → 64pt headline → 2 same-size CTAs → 3-up feature grid → "1-2-3 steps" → logo soup → identical pricing cards · decorative `01 / 02 / 03` section numbers · a tiny uppercase eyebrow label stacked over every section heading · a horizontally-scrolling word/marquee strip used as filler |
+| Components | `rounded-2xl` everywhere · one uniform radius + one shadow on everything · 3-4px colored card stripe · untouched shadcn/lib defaults · Sparkles next to "AI" |
+| Imagery | Spline 3D blobs · unDraw/Storyset illustrations · "person at laptop" stock · gradient meshes · AI-generated hero images instead of the client's real photos |
+| Copy | "Unlock the power of…" · "Transform your…" · three-word value props with no specificity · invented taglines when the client already has real homepage copy |
 
 ### Antidotes
 
@@ -175,9 +196,15 @@ What makes a public site look produced by v0/Lovable/ChatGPT in 10 minutes:
 7. **Real icons, single library, no Sparkles for "AI."**
 8. **Concrete copy** — "Payments infrastructure for the internet" beats "Unlock seamless payments." Specific numbers, real nouns, customer language. Vague copy enables vague layouts.
 
-### The system test
+### The system test — a required self-audit before any public page is shown
 
-Before shipping ask: *"Could this same homepage, colors and logo swapped, ship for any other client?"* If yes, it's too generic. Personality must be load-bearing — change the brand and the whole page should fall apart.
+Before showing a bespoke public page to the client (or returning it from a subagent), run an explicit tell audit and **remove every hit** — don't wait for the client to catch them:
+
+1. **Walk the tells table** against the actual page; flag each hit by name (centered-hero+3-card grid, single italic accent word, `01/02` numbers, eyebrow-over-every-heading, marquee, uniform radius/shadow, untouched shadcn defaults). Fix them, don't rationalize.
+2. **Swap test:** *"Could this same page, colors and logo swapped, ship for any other client?"* If yes, it's too generic — personality must be load-bearing, so changing the brand makes the whole page fall apart.
+3. **Real-content test:** is the client's actual copy, real photos, and true story doing the work — or is invented filler standing in?
+
+For bespoke public screens this audit is part of the **definition of done** — `workflow-brainstorm`'s bespoke-design gate points here.
 
 ## One-screen defaults
 

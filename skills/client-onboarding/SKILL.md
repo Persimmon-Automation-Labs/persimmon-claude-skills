@@ -82,7 +82,12 @@ const brand = await page.evaluate(() => {
     document.querySelector("header img, [class*=logo] img, header svg")?.getAttribute?.("src") ||
     document.querySelector('meta[property="og:image"]')?.getAttribute("content") ||
     null;
-  return { colors, fonts, logo };
+  // Real photo library: content images (skip logos/icons/sprites) — usually the
+  // strongest differentiator on a bespoke public site.
+  const photos = [...document.querySelectorAll("img")]
+    .map((i) => i.currentSrc || i.src)
+    .filter((s) => s && !/logo|icon|sprite|svg/i.test(s));
+  return { colors, fonts, logo, photos: [...new Set(photos)].slice(0, 40) };
 });
 
 // --- Page inventory (internal nav) ---
@@ -126,6 +131,8 @@ await sharp("docs/brand-assets/_audit/logo-raw.png")
   .toFile("docs/brand-assets/logo.png");
 ```
 
+**Harvest the real photo library** (not just the logo). Download the `photos` candidates to `docs/brand-assets/photos/`, and write a one-paragraph **visual signature** in `BRAND-GUIDE.md` — the recurring look (e.g. "high-key daylight on linen" + "B&W heritage portraits") — so a bespoke public design is built on real imagery with one consistent treatment (`frontend-public-site-conventions` → "Build on the client's real photography"). If photos can't be fetched, record imagery as a human-blocked open item — never plan around stock/AI images.
+
 ## Step 3 — Write docs/BRAND-GUIDE.md
 
 ```markdown
@@ -155,6 +162,11 @@ These map directly to Tailwind v4 tokens — see `stack-tailwind-tokens` to wire
 - File: `brand-assets/logo.png` (+ optimized variants)
 - Background: transparent / solid
 
+## Photography
+- Library: `brand-assets/photos/` ({count} images)
+- Visual signature: {the recurring look — e.g. "high-key daylight on linen grounds" + "B&W heritage portraits"}
+- Treatment to apply site-wide: {one consistent tone/grain/contrast recipe}
+
 ## Tone
 {Formal / casual / technical — observed from site copy.}
 
@@ -183,11 +195,14 @@ These map directly to Tailwind v4 tokens — see `stack-tailwind-tokens` to wire
 - Mobile responsive: Yes / No / Partial
 
 ## Page Inventory
-| Page    | Path     | Keep      | Notes |
-|---------|----------|-----------|-------|
-| Home    | /        | Redesign  |       |
-| About   | /about   | Keep copy |       |
-| Contact | /contact | Rebuild   |       |
+
+Capture the **real content blocks** on each page (hero copy, sections, offerings, story text, hours, team/purveyor lists, legal/allergen notices, menus/price lists — including content trapped in PDFs/images), not just the page list. This is the source for the spec's content-parity check (`workflow-brainstorm`), which verifies nothing real is silently dropped in a redesign.
+
+| Page    | Path     | Keep      | Content blocks (real copy/sections) | Notes |
+|---------|----------|-----------|-------------------------------------|-------|
+| Home    | /        | Redesign  | {hero copy, intro, services, hours} |       |
+| About   | /about   | Keep copy | {founder story verbatim, values}    |       |
+| Contact | /contact | Rebuild   | {address, hours, phone, map}        |       |
 
 ## Requirements
 - [ ] {requirement}
@@ -211,6 +226,7 @@ See `BRAND-GUIDE.md`.
 | `PROJECT-BRIEF.md` | `docs/` | **Permanent, living.** Update as scope confirms; resolve open questions inline. |
 | `BRAND-GUIDE.md` | `docs/` | **Permanent, living.** Promote from open-item to final once assets confirmed. |
 | Brand assets (logo, images) | `docs/brand-assets/` | **Permanent.** Source + optimized variants. |
+| Real photo library (harvested) | `docs/brand-assets/photos/` | **Permanent.** The client's actual photos — a primary design input for bespoke public pages (`frontend-public-site-conventions`). Keep originals; `client-image-optimization` derives variants. |
 | Reference screenshots | `docs/brand-assets/reference/` | **Keep until launch**, then optional. |
 | Raw scrape (`site-audit.json`, raw logo) | `docs/brand-assets/_audit/` | **Transient.** Delete after the durable docs are populated. Add `docs/brand-assets/_audit/` to `.gitignore` — never commit raw scrapes. |
 

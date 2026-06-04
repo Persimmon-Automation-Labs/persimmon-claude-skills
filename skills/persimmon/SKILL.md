@@ -32,6 +32,13 @@ If both are missing, respond: *"No approved spec/plan for this work. Invoke `wor
 
 If `.claude/project-type` is missing, ask once and offer to write it (`internal-tool` or `marketing-site`).
 
+## Apply skills, don't improvise — and recognize a stale install
+
+Two failure modes corrupt the work even when the right skill exists:
+
+1. **Installed ≠ applied.** Before any design/IA/schema/architecture decision, invoke and actually *read* the relevant skill — don't work from memory of what it "probably says." If a skill has a checklist, make a TodoWrite item per item. A decision you can't trace to a skill you read (or research you ran) is improvisation; stop and do one of them.
+2. **A referenced skill that isn't available means a stale/disabled plugin — not a skill that doesn't exist.** Persimmon skills ship as a versioned plugin (`persimmon@persimmon-labs`); a project pinned to an older version, or with the plugin disabled at this scope, won't see skills added since. If you cite a skill (in a spec, plan, or review) and it's **not in your available-skills list**, do NOT do what a past session did — relabel real skills as "inline methodology" and write that fiction into the spec. Instead: flag it, re-sync via `meta-skill-sync` (`claude plugin marketplace update persimmon-labs` / enable at project scope), then invoke the now-available skill. Never silently downgrade a named skill to route around its absence.
+
 ## The domain mothers
 
 | Mother | When to invoke | Owns |
