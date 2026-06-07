@@ -1,11 +1,11 @@
 # Persimmon Automation Labs — Claude Code Skills
 
-80 reusable Claude Code skills organized as **master → mothers → children** for predictable routing across every Persimmon client project. Includes a `workflow` mother that forces brainstorm-before-code discipline on non-trivial work. Targets the Persimmon standard stack.
+85 reusable Claude Code skills organized as **master → mothers → children** for predictable routing across every Persimmon client project. Includes a `workflow` mother that forces brainstorm-before-code discipline on non-trivial work, with a lean tiered requirements-traceability system on top. Targets the Persimmon standard stack.
 
 | | |
 |---|---|
 | **Default stack** | Next.js 16, TypeScript strict, Prisma + pgvector, Anthropic Claude SDK, NextAuth v5, Tailwind v4, Railway |
-| **Skills** | 80 (1 master + 12 mothers + 67 specialists) |
+| **Skills** | 85 (1 master + 12 mothers + 72 specialists) |
 | **Repo** | [github.com/Persimmon-Automation-Labs/persimmon-claude-skills](https://github.com/Persimmon-Automation-Labs/persimmon-claude-skills) |
 | **Guide** | [USER-GUIDE.md](USER-GUIDE.md) — scenario-based usage |
 | **Clients** | Piccino Legal (live) |
@@ -27,9 +27,9 @@ Three levels:
 
 1. **`persimmon` (master)** — invoked first on any Persimmon work; enforces the workflow gate, then routes to the right domain mother.
 2. **12 domain mothers** — `workflow`, `stack`, `frontend`, `backend`, `ai`, `data`, `infra`, `security`, `quality`, `client-lifecycle`, `domain-legal`, `project-meta`.
-3. **67 specialist children** — the implementation skills, prefixed by mother (`stack-*`, `frontend-*`, `backend-*`, `client-*`, …).
+3. **72 specialist children** — the implementation skills, prefixed by mother (`stack-*`, `frontend-*`, `backend-*`, `client-*`, …).
 
-A typical session for non-trivial work: `persimmon` → `workflow` → `workflow-brainstorm` → (spec approved) → `workflow-plan` → domain mother → specialist. Trivial work (copy, one-line Tailwind, README edits, dependency bumps) bypasses the gate. `skip workflow:` overrides on legitimate fast-fix moments.
+A typical session for non-trivial work: `persimmon` → `workflow` → `workflow-brainstorm` → `workflow-spec-review` → `workflow-flow-review` → (spec approved) → `workflow-plan` → domain mother → specialist. Trivial work (copy, one-line Tailwind, README edits, dependency bumps) bypasses the gate. `skip workflow:` overrides on legitimate fast-fix moments.
 
 ## Catalog
 
@@ -38,20 +38,22 @@ A typical session for non-trivial work: `persimmon` → `workflow` → `workflow
 |---|---|
 | `persimmon` | Master router — invoke first; enforces the workflow gate; routes to the right domain mother |
 
-### `workflow` mother (8 children)
-Brainstorm-before-code discipline adapted from obra/superpowers for the TS/Prisma stack. See [docs/decisions/0003](docs/decisions/0003-workflow-gate-typescript-stack.md).
+### `workflow` mother (10 children)
+Brainstorm-before-code discipline adapted from obra/superpowers for the TS/Prisma stack, plus a lean tiered requirements-traceability system. See [docs/decisions/0003](docs/decisions/0003-workflow-gate-typescript-stack.md) and [0005–0008](docs/decisions/).
 
 | Skill | What it owns |
 |---|---|
-| `workflow` (mother) | Lifecycle routing (brainstorm → spec-review → plan → execute → verify → debug → review → finish), tiered by project type |
-| `workflow-brainstorm` | One-question dialogue → approved spec in `docs/specs/` with required `## Business meaning` |
-| `workflow-spec-review` | Adversarial red-team between brainstorm and plan — concurrency, money-state timing, unverifiable criteria, cutover/jurisdiction landmines |
-| `workflow-plan` | Implementation plan in `docs/plans/` — EARS criteria + Why-this-matters per task |
+| `workflow` (mother) | Lifecycle routing (brainstorm → spec-review → flow-review → plan → execute → verify → debug → review → finish), tiered by project type |
+| `workflow-brainstorm` | One-question dialogue → approved spec in `docs/specs/` with required `## Business meaning` + `## Skills applied` |
+| `workflow-spec-review` | Adversarial red-team between brainstorm and plan — concurrency, money-state timing, unverifiable criteria, cutover/jurisdiction landmines; builds the RTM (Pass 1) |
+| `workflow-flow-review` | Derives every (actor × goal) flow, scores coverage (RTM), walks the developer through each so they own the demo; logs gaps |
+| `workflow-plan` | Implementation plan in `docs/plans/` — EARS criteria + Why-this-matters + `Implements:` (REQ + SCREEN) per task |
 | `workflow-execute` | Task-by-task execution with `human-blocked` state for client-dependent work |
 | `workflow-verify` | `tsc --noEmit` + `eslint` + `prisma validate` + tests + user-workflow checklist |
 | `workflow-debug` | Systematic debugging across Next 16 / Prisma / Railway / NextAuth gotchas |
 | `workflow-code-review` | Two-stage: spec compliance, then Persimmon conventions |
 | `workflow-finish` | Pre-merge checklist + branch close-out |
+| `workflow-traceability` | The provenance model: ID namespace, the spine, the tiering matrix (project-type × project-stage), docs/ homes, the `traceability-audit` |
 
 ### `stack` mother (4 children)
 | Skill | What it owns |
@@ -80,7 +82,7 @@ Visual, UX, and structural conventions for any UI work — adapted from the Asla
 | `frontend-interaction-patterns` | Button placement, modal vs page actions, section nav |
 | `frontend-print-pdf` | `@media print` + `window.print()`; server-side PDF options |
 
-### `backend` mother (7 children)
+### `backend` mother (8 children)
 Server-side feature patterns over Server Actions / Route Handlers + Prisma.
 
 | Skill | What it owns |
@@ -93,6 +95,7 @@ Server-side feature patterns over Server Actions / Route Handlers + Prisma.
 | `backend-settings-admin` | AES-256-GCM-encrypted settings table, env fallback, test-connection |
 | `backend-content-management` | Typed content blocks, sanitize-on-write, media library, slug→301 |
 | `backend-commerce-concurrency` | Atomic claims, `FOR UPDATE`, advisory locks, checkout holds |
+| `backend-account-management` | Account/role lifecycle on NextAuth+Prisma: signup→pending→approval, invites, password reset, admin invariants |
 
 ### `ai` mother (3 children)
 | Skill | What it owns |
@@ -102,13 +105,14 @@ Server-side feature patterns over Server Actions / Route Handlers + Prisma.
 | `ai-prompt-library` | `src/lib/ai/prompts.ts` — centralized prompt templates |
 | `ai-rag-retrieval` | Chunking, embedding, hybrid search, reranking, citation grounding |
 
-### `data` mother (3 children)
+### `data` mother (4 children)
 | Skill | What it owns |
 |---|---|
 | `data` (mother) | Data-layer routing + defaults |
 | `data-prisma-pgvector` | Schema, pgvector, HNSW indexing, cosine-similarity queries |
 | `data-schema-design` | Snapshot mutable values, lifecycle enums, join tables, FK/cardinality, review lenses |
 | `data-booking-availability` | Reservation/slot schema, availability query, blackout/lead-time, waitlist, deposits |
+| `data-db-cli` | Read-only-by-default `db` CLI (`npm run db`) + Postgres MCP setup, `--write`/`--prod` gates |
 
 ### `infra` mother (4 children)
 | Skill | What it owns |
@@ -162,14 +166,15 @@ Bookends of a client engagement — intake/branding at the start, delivery instr
 | `legal-pt-prompting` | Portuguese legal prompt craft |
 | `legal-glossary` | Brazilian legal terminology reference |
 
-### `project-meta` mother (6 children)
+### `project-meta` mother (7 children)
 | Skill | What it owns |
 |---|---|
 | `project-meta` (mother) | Repo lifecycle + docs routing |
 | `meta-new-client-project` | GitHub repo in org, clone, scaffold docs, register |
+| `meta-lifecycle-stage` | Reads `.claude/project-stage`; graduated commit/push/branch/deploy rigor (prototype→maintenance) |
 | `meta-document-project` | Lean doc audit/scaffold/update |
 | `meta-project-xray` | Guided walk-through of pages, data flows, integrations |
-| `meta-adr-authoring` | MADR-lite ADRs for non-obvious choices |
+| `meta-adr-authoring` | MADR-lite ADRs for non-obvious choices (the per-project ADR home in the traceability model) |
 | `meta-deployment-plan` | Client-facing deployment/go-live document |
 | `meta-skill-sync` | Install/verify the Persimmon plugin in a project |
 
@@ -184,7 +189,7 @@ All skills target the Persimmon standard stack (see [CLAUDE.md](CLAUDE.md)): Nex
 | [README.md](README.md) | This file — catalog and routing overview |
 | [USER-GUIDE.md](USER-GUIDE.md) | Scenario-based usage (new project, feature build, QA, recovery) |
 | [CLAUDE.md](CLAUDE.md) | Stack conventions + skill-authoring rules for this repo |
-| [docs/decisions/](docs/decisions/) | 4 ADRs documenting the structural choices |
+| [docs/decisions/](docs/decisions/) | 8 ADRs documenting the structural choices (0005–0008 dogfood the traceability system) |
 | [skills.json](skills.json) | Machine-readable catalog — regenerate via `./scripts/build-registry.sh > skills.json` |
 
 ## Contributing

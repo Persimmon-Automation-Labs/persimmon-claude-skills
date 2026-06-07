@@ -1,14 +1,32 @@
-[Persimmon skills active — project type: __PROJECT_TYPE__]
+[Persimmon skills active — project type: __PROJECT_TYPE__, stage: __PROJECT_STAGE__]
 
 For any work in this repo, invoke the `persimmon` master skill first. It enforces the
-workflow gate, then routes to the right domain mother (workflow / stack / ai / data /
-infra / security / quality / domain-legal / project-meta).
+workflow gate, then routes to the right domain mother (workflow / stack / frontend /
+backend / ai / data / infra / security / quality / client-lifecycle / domain-legal /
+project-meta).
+
+SESSION ORIENTATION (do first): read `.claude/project-stage` and `.claude/project-rules.md`
+(also loaded below). Stage rules (`meta-lifecycle-stage`) govern commit/push/branch/deploy
+rigor — it ratchets up prototype → mvp → demo → production → maintenance:
+  prototype/mvp = push to main freely & often; CI must stay green; Railway auto-deploys
+                  staging; default-and-present, move fast.
+  demo          = client reviewing on Railway staging; verify demo creds; CI green.
+  production    = backup-gated deploys; CI + Playwright smoke; full quality-production-
+                  readiness before first prod deploy; tag releases; careful on money/data.
+  maintenance   = live client — MOST cautious: backup-first, short branch + self-review,
+                  ask before destructive changes.
+Invoke `meta-lifecycle-stage` if unsure what the current stage permits.
 
 WORKFLOW GATE: On any non-trivial task (new file, route, Server Action, Prisma model,
 migration, prompt, dependency, or "feature/refactor" work), invoke the `workflow` mother
-FIRST — brainstorm → plan before code. On `internal-tool` projects this is required:
-no code without an approved spec in docs/specs/ and a plan in docs/plans/. On
-`marketing-site` projects, a spec is required only for new pages/sections.
+FIRST — brainstorm → spec-review → flow-review → plan before code. On `internal-tool`
+projects this is required: no code without an approved spec in docs/specs/ and a plan in
+docs/plans/. On `marketing-site` projects, a spec is required only for new pages/sections.
+
+Traceability (tiered by project-type × project-stage — see `workflow-traceability`):
+specs at T1/T2 carry REQ-IDs + a `Skills applied` footer; plans cite `Implements:` (REQ +
+SCREEN); `workflow-flow-review` derives every user flow and walks you through it so you own
+the demo. The `traceability-audit` is report-only mid-build and gates at demo/handoff.
 
 Trivial work (copy, one-line Tailwind, README/CLAUDE.md edits, dependency bumps, typos,
 reverting a recent commit) bypasses — go straight to the relevant domain mother.

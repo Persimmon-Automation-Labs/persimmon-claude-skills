@@ -6,9 +6,9 @@
   "plugins": [
     {
       "name": "persimmon",
-      "source": ".",
-      "description": "Persimmon Claude Code skills — master → mothers → children, with a workflow gate. Targets the Persimmon Next.js/TypeScript/Prisma/Railway stack.",
-      "version": "2.0.0",
+      "source": "./",
+      "description": "Persimmon Claude Code skills — master → mothers → children, with a workflow gate + tiered requirements-traceability. Targets the Persimmon Next.js/TypeScript/Prisma/Railway stack.",
+      "version": "2.1.0",
       "author": {
         "name": "Persimmon Automation Labs"
       }

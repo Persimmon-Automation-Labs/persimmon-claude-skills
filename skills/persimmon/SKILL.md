@@ -32,6 +32,15 @@ If both are missing, respond: *"No approved spec/plan for this work. Invoke `wor
 
 If `.claude/project-type` is missing, ask once and offer to write it (`internal-tool` or `marketing-site`).
 
+## Session orientation — stage + project memory (read these first)
+
+At the start of every session in a client project — before the workflow gate takes its first task — read two one-line markers and announce what they mean:
+
+1. **`.claude/project-stage`** (prototype | mvp | demo | production | maintenance) — invoke `meta-lifecycle-stage` for the rules: prototype/mvp = push to main freely + Railway auto-deploy staging; demo = client review on staging; production = backup-gated + the `quality-production-readiness` gate; maintenance = most cautious (live data). If it's missing, infer + write it per `meta-lifecycle-stage`.
+2. **`.claude/project-rules.md`** — the project's source-of-truth for deploy path, credential *locations* (never values), DB names, and where specs/mockups live — so you don't re-derive facts the project already recorded.
+
+Both are auto-loaded by the SessionStart hook; confirm they exist and are current.
+
 ## Apply skills, don't improvise — and recognize a stale install
 
 Two failure modes corrupt the work even when the right skill exists:
@@ -43,18 +52,18 @@ Two failure modes corrupt the work even when the right skill exists:
 
 | Mother | When to invoke | Owns |
 |---|---|---|
-| `workflow` | **FIRST** on any non-trivial task — brainstorm → spec-review → plan → execute → verify → debug → review → finish | 8 children: workflow-brainstorm, -spec-review, -plan, -execute, -verify, -debug, -code-review, -finish |
+| `workflow` | **FIRST** on any non-trivial task — brainstorm → spec-review → flow-review → plan → execute → verify → debug → review → finish | 10 children: workflow-brainstorm, -spec-review, -flow-review, -plan, -execute, -verify, -debug, -code-review, -finish, -traceability |
 | `stack` | App-code standards: Server Actions, strict TypeScript, Zod boundaries, Tailwind v4 tokens | `stack-server-actions`, `stack-typescript-strict`, `stack-zod-boundary`, `stack-tailwind-tokens` |
 | `frontend` | Any UI work: conventions, page templates, CSS/theme, responsive, tables, forms, feedback, upload UX, print | `frontend-internal-tool-conventions`, `frontend-public-site-conventions`, `frontend-page-templates`, `frontend-css-architecture`, `frontend-responsive`, `frontend-data-tables`, `frontend-form-patterns`, `frontend-feedback-system`, `frontend-file-upload`, `frontend-interaction-patterns`, `frontend-print-pdf` |
-| `backend` | Server features: webhooks, Stripe, notifications, admin panels, settings, CMS, concurrency | `backend-webhook-handler`, `backend-stripe`, `backend-notifications`, `backend-admin-panel`, `backend-settings-admin`, `backend-content-management`, `backend-commerce-concurrency` |
+| `backend` | Server features: webhooks, Stripe, notifications, admin panels, settings, CMS, concurrency, account/role lifecycle | `backend-webhook-handler`, `backend-stripe`, `backend-notifications`, `backend-admin-panel`, `backend-settings-admin`, `backend-content-management`, `backend-commerce-concurrency`, `backend-account-management` |
 | `ai` | Any Claude/LLM code: SDK wrapper, prompt library, RAG retrieval | `ai-sdk-wrapper`, `ai-prompt-library`, `ai-rag-retrieval` |
-| `data` | Prisma schema, pgvector, embeddings, HNSW, query design, schema-design rigor, booking/availability | `data-prisma-pgvector`, `data-schema-design`, `data-booking-availability` |
+| `data` | Prisma schema, pgvector, embeddings, HNSW, query design, schema-design rigor, booking/availability, DB CLI/MCP | `data-prisma-pgvector`, `data-schema-design`, `data-booking-availability`, `data-db-cli` |
 | `infra` | Railway deploy, S3 uploads, background jobs, GitHub Actions CI | `infra-railway-deploy`, `infra-s3-uploads`, `infra-background-jobs`, `infra-github-ci` |
 | `security` | Auth (NextAuth v5), security review, runtime hardening, demo credentials | `security-nextauth`, `security-review`, `security-hardening`, `security-demo-credentials` |
 | `quality` | Pre-delivery review across dimensions + orchestration, production readiness, testing, E2E | `quality-final-review`, `quality-review-performance`, `quality-review-type-safety`, `quality-review-data-layer`, `quality-review-prompt-output`, `quality-production-readiness`, `quality-testing-validation`, `quality-playwright-e2e` |
 | `client-lifecycle` | Client engagement bookends: onboarding/brand, transactional email, SEO, analytics, handoff | `client-onboarding`, `client-transactional-email`, `client-seo`, `client-analytics`, `client-handoff` |
 | `domain-legal` | Brazilian legal RAG work (Piccino and future legal clients) | `legal-brief-composer`, `legal-pdf-classifier`, `legal-pt-prompting`, `legal-glossary` |
-| `project-meta` | Repo lifecycle, docs, ADRs, onboarding, deployment plans | `meta-new-client-project`, `meta-document-project`, `meta-project-xray`, `meta-adr-authoring`, `meta-deployment-plan`, `meta-skill-sync` |
+| `project-meta` | Repo lifecycle, lifecycle stage, docs, ADRs, onboarding, deployment plans | `meta-new-client-project`, `meta-lifecycle-stage`, `meta-document-project`, `meta-project-xray`, `meta-adr-authoring`, `meta-deployment-plan`, `meta-skill-sync` |
 
 ## Lifecycle decision tree — when to invoke what
 

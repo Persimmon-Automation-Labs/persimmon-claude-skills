@@ -114,6 +114,8 @@ HNSW beats IVFFlat for recall + latency on most workloads < 10M rows. Build with
 
 ## Per-Project Pipeline
 
+Every session first reads `.claude/project-stage` (`meta-lifecycle-stage` — graduated commit/push/deploy rigor) and `.claude/project-rules.md` (deploy/DB/repo facts). Non-trivial work goes through the `workflow` mother (brainstorm → spec-review → flow-review → plan), with traceability tiered by `project-type` × `project-stage` (`workflow-traceability`).
+
 For a new client, skills chain in this order:
 
 1. **`meta-new-client-project`** — GitHub repo in `Persimmon-Automation-Labs`, clone, scaffold docs, register.

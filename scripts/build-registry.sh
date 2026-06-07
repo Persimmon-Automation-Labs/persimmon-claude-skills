@@ -6,7 +6,7 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$REPO_ROOT"
 
-VERSION="2.0.0"
+VERSION="2.1.0"
 GENERATED_AT="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 
 # Derive a mother for each skill from its directory-name prefix.

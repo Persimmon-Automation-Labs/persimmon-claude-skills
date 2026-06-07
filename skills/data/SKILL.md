@@ -18,6 +18,9 @@ Persimmon data = PostgreSQL with `pgvector`, accessed through Prisma with one sh
 | Skill | When to use | Owns |
 |---|---|---|
 | `data-prisma-pgvector` | Any schema design, migration, vector column, or similarity query | Prisma schema patterns, pgvector extension setup, HNSW indexing (`vector_cosine_ops`), cosine-similarity queries, the one-shared-client rule |
+| `data-schema-design` | Modeling rigor before a schema is final | Snapshot-mutable-values, lifecycle enums, join models, FK/cardinality, the validation lenses |
+| `data-booking-availability` | Reservations / slots / availability | Slot schema, availability queries, blackout/lead-time, waitlist, deposits |
+| `data-db-cli` | Inspect or query the live DB without writing a script | The read-only-by-default `db` CLI (`npm run db`) + Postgres MCP setup, the `--write`/`--prod` safety gates |
 
 ## Persimmon data defaults — one-screen summary
 

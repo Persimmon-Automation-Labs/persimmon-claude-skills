@@ -1,6 +1,6 @@
 ---
 name: workflow
-description: Index of the Persimmon workflow discipline — brainstorm → plan → execute → verify → debug → review → finish. Routes work to the right child skill. Invoked FIRST on any non-trivial task per the persimmon master skill's workflow gate. Skips for trivial edits (copy, one-line Tailwind, dependency bumps, typos, README). Trigger keywords: workflow, where do I begin, new feature, spec, plan, brainstorm.
+description: Index of the Persimmon workflow discipline — brainstorm → spec-review → flow-review → plan → execute → verify → debug → review → finish. Routes work to the right child skill. Invoked FIRST on any non-trivial task per the persimmon master skill's workflow gate. Skips for trivial edits (copy, one-line Tailwind, dependency bumps, typos, README). Trigger keywords: workflow, where do I begin, new feature, spec, plan, brainstorm, traceability.
 ---
 
 # Workflow — Index
@@ -42,13 +42,16 @@ If `.claude/project-type` is missing, ask once and offer to write it.
 
 | Phase | Child | When to invoke |
 |---|---|---|
-| 1. Decide what to build | `workflow-brainstorm` | Any non-trivial feature/page/change. Produces an approved spec at `docs/specs/YYYY-MM-DD-{topic}.md` with a required `## Business meaning` section. |
-| 2. Decide how to build it | `workflow-plan` | After a spec is approved. Produces `docs/plans/YYYY-MM-DD-{topic}.md` with EARS acceptance criteria + a `**Why this matters:**` line per task. |
+| 1. Decide what to build | `workflow-brainstorm` | Any non-trivial feature/page/change. Produces an approved spec at `docs/specs/YYYY-MM-DD-{topic}.md` with a required `## Business meaning` section and (T1/T2) a `## Skills applied` footer. |
+| 1.5 Red-team the spec | `workflow-spec-review` | After a draft spec, before plan. Adversarial checklist for the failure modes a happy-path read misses — concurrency/oversell, money-state timing, unverifiable criteria, Railway/NextAuth cutover landmines, jurisdiction tax. Builds the RTM (Pass 1) + the client-question list. |
+| 1.7 Trace every user flow | `workflow-flow-review` | After the spec (+ mockups), before/with plan. Derives every (actor × goal) flow, scores coverage across spec/EARS/plan/mockup (an RTM), walks the developer through each flow in plain language so they own it for the demo, and logs gaps to a backlog. Catches the journeys a happy-path read drops (recovery, invite/accept, empty/error states, lockout). |
+| 2. Decide how to build it | `workflow-plan` | After a spec is approved AND reviewed. Produces `docs/plans/YYYY-MM-DD-{topic}.md` with EARS acceptance criteria, a `**Why this matters:**` line, and an `**Implements:**` (REQ + SCREEN) citation per task. |
 | 3. Build it | `workflow-execute` | Executes a plan task-by-task. Models `human-blocked` state for tasks waiting on client replies. |
 | 4. Confirm it works | `workflow-verify` | Plan-Execute-Verify loop: `tsc --noEmit`, `eslint`, `prisma validate`, `vitest`/Playwright, Zod-boundary check, manual user-workflow checklist. |
 | 5. Debug when it doesn't | `workflow-debug` | Systematic debugging for the Persimmon stack — Railway logs, Prisma client cache, force-dynamic prerender crashes, NextAuth UntrustedHost, CORS. |
 | 6. Review before merge | `workflow-code-review` | Two-stage review: spec-compliance vs `docs/specs/`, then Persimmon conventions via the `quality` review-* skills. |
 | 7. Ship and close out | `workflow-finish` | Pre-merge checklist (CI green, force-dynamic audited, env vars set, CLAUDE.md updated) and branch cleanup. |
+| — (cross-cutting model) | `workflow-traceability` | The provenance system behind brainstorm/spec-review/flow-review/plan: the ID namespace, the spine, the tiering matrix (`project-type` × `project-stage`), the docs/ homes, and the `traceability-audit`. Invoke when asked "is this traceable / are all flows covered" or at a demo/handoff gate. |
 
 ## The escape hatch — `skip workflow:`
 
@@ -58,9 +61,11 @@ The user can override the gate by typing `skip workflow:` followed by what they 
 
 | Path (in the CLIENT repo, never here) | What lives there |
 |---|---|
-| `docs/specs/YYYY-MM-DD-{topic}.md` | Approved spec (source of truth), includes `## Business meaning` |
-| `docs/plans/YYYY-MM-DD-{topic}.md` | Implementation plan with EARS criteria + Why-this-matters per task |
+| `docs/specs/YYYY-MM-DD-{topic}.md` | Approved spec (source of truth), includes `## Business meaning` + `## Skills applied` |
+| `docs/plans/YYYY-MM-DD-{topic}.md` | Implementation plan with EARS criteria + Why-this-matters + Implements per task |
+| `docs/requirements/` | `personas.md` · `requirements.md` (EARS + REQ IDs) · `flows.md` (registry + RTM) — see `workflow-traceability` |
 | `docs/decisions/` | ADRs (MADR-lite) for non-obvious architecture choices — see `meta-adr-authoring` |
+| `docs/context/` | `decisions.md` · `open-questions.md` · `changelog.md` · `meetings/` — client-confirmed-over-time |
 
 ## Persimmon defaults for workflow artifacts
 

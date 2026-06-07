@@ -27,6 +27,8 @@ Persimmon login forms take **email** (NextAuth credentials provider keys on emai
 
 Override per project only on client request; document overrides in the project's `README.md`.
 
+**Multi-role internal tools — one demo login per role.** The two-role default is for the common "boss + employee" case. A role-based tool with more than two distinct roles (e.g. `admin`/`lawyer`/`manager`/`viewer`) should instead ship **one demo account per role** so a demoer can land directly in each role's view. Keep everything else identical — the copy-to-clipboard UX, the `isDemo()` env+hostname gate — just render one chip per role. These demo logins coexist with real DB-backed signup; see `backend-account-management` for the full account lifecycle they sit alongside.
+
 ## When to display — defense in depth (env AND host)
 
 The credentials block renders **only when BOTH are true**:
@@ -247,7 +249,7 @@ APP_ENV=production   # .env.example default — MUST be production
 - **`.env.example` shipping `APP_ENV=demo`** — default must be `production`.
 - **A hardcoded `DEMO_MODE = true` constant** — no environment safety; ships to prod by accident.
 - **`admin/admin`** — reads as "never configured", erodes trust.
-- **More than 2 demo roles** — cognitive load with no clarification.
+- **More than 2 demo roles on a tool that only has 2 roles** — cognitive load with no clarification. (A genuinely multi-role tool *should* show one demo login per role — see the multi-role note above.)
 - **Reading `host` instead of `x-forwarded-host`** behind Railway — the gate checks the wrong (internal) hostname and misfires.
 
 ## When NOT to use this skill

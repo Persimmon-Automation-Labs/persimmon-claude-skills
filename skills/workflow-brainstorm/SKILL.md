@@ -48,7 +48,22 @@ Anything still unknown or client-blocked.
 
 ## Acceptance (high level)
 Bullet outcomes a human can verify. (Detailed EARS criteria come in `workflow-plan`.)
+
+## Skills applied            ← REQUIRED at T1/T2 (workflow-traceability)
+The provenance footer: which skills were READ for which decisions (e.g. "IA →
+frontend-public-site-conventions; data model → data-schema-design; auth →
+security-nextauth"), and a `Decisions needing research:` line listing what was
+researched. An empty footer on a non-trivial spec is a defect — it means the
+design can't be traced to applied skills. `workflow-spec-review` verifies this.
 ```
+
+## Traceability (tiered — see `workflow-traceability`)
+
+Per the tiering matrix (`project-type` × `project-stage`):
+
+- **At T1/T2** (operated surfaces / past prototype), give every acceptance criterion a stable **`REQ-<PROJ>-<AREA>-<NNN>`** ID and a cited **source** (`SOW §x` | `ADR-<NNNN>` | `constitution:<skill>`), kept in `docs/requirements/requirements.md`; name each screen by its **mockup filename** (`SCREEN-<slug>`) and capture the actors as a **persona registry** (`docs/requirements/personas.md`). IDs are what let `traceability-audit` and `workflow-flow-review` link the spine without prose-matching. A criterion whose source is neither the SOW nor a skill must point to an **ADR** (`meta-adr-authoring`).
+- **At T0** (marketing/prototype) skip IDs except on money/auth/data criteria.
+- **Mockups:** before a mockup set is "done", run the token-lint so a typo'd `var(--token)` (which renders as *nothing* — invisible breakage) is caught: `node <persimmon-skills>/scripts/mockup-token-lint.mjs docs/specs/<topic>/mockups src/app/globals.css`. Subagents reintroduce this constantly — put the lint in their return criteria.
 
 ## Bespoke public-facing design — extra gates
 

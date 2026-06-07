@@ -28,12 +28,22 @@ Spec: docs/specs/YYYY-MM-DD-{topic}.md
 ## Task 1 — {short name}   [state: ready | human-blocked]
 **Files:** src/app/…, prisma/schema.prisma, src/lib/ai/prompts.ts
 **Why this matters:** …
+**Implements:** {REQ-ID(s) — e.g. `REQ-PIC-AUTH-002`} · Spec §{section} · {SCREEN-ID = mockup file, e.g. `SCREEN-login`} {— or "no screen: backend/infra task"}
 **Acceptance (EARS):**
 - While a user is authenticated, when they submit the form, the Server Action shall validate with Zod and persist via the shared Prisma client.
 - While the page reads the DB, the page shall export `const dynamic = "force-dynamic"`.
 
 ## Task 2 — …
 ```
+
+The `**Implements:**` line is the `built` link in the RTM (`workflow-traceability`). At T1/T2 the REQ + SCREEN IDs are required so `traceability-audit` can resolve task→requirement→screen without prose-matching. A UI task with no mockup citation is a red flag — the mockup is the design target; build to it, not to imagination.
+
+## Before handoff — traceability checklist (tiered)
+
+- [ ] Every task has `**Why this matters:**` and (at T1/T2) an `**Implements:**` line citing its spec section/criterion (REQ-ID) and the specific mockup file (SCREEN-ID), or explicitly "no mockup: backend/infra".
+- [ ] **Every screen in the spec's `mockups/` has at least one task that implements it** — no mockup left unbuilt (reverse-traceability).
+- [ ] Every task has a file-touch list, EARS acceptance criteria, and user-workflow verification steps.
+- [ ] Human-blocked tasks are marked `human-blocked`.
 
 ## Output
 

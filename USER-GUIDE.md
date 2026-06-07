@@ -14,10 +14,11 @@ cd /path/to/persimmon-claude-skills
 
 What it does (idempotent — safe to re-run):
 - `claude plugin marketplace add` this repo, then `claude plugin install persimmon@persimmon-labs --scope project` → writes a valid `enabledPlugins` entry to the project's `.claude/settings.json` (committed, so every collaborator who clones inherits it)
-- Writes `.claude/project-type` (`internal-tool` or `marketing-site`)
+- Writes `.claude/project-type` (`internal-tool` or `marketing-site`) and `.claude/project-stage` (`prototype`/`mvp`/`demo`/`production`/`maintenance`, default `mvp` — see `meta-lifecycle-stage`)
+- Seeds `.claude/project-rules.md` (project source-of-truth: deploy/DB/repo facts) and scaffolds `docs/{requirements,decisions,context}/`
 - Appends a skill-routing note to the project's `CLAUDE.md`
 
-The bundled SessionStart hook then loads the routing/gate context on every session, and skills are available as `persimmon:<skill>` (Claude also auto-routes them by description).
+The bundled SessionStart hooks then load the routing/gate context **and** `project-rules.md` on every session, and skills are available as `persimmon:<skill>` (Claude also auto-routes them by description).
 
 > Low-tech fallback: `meta-skill-sync` documents cloning the `skills/` folder into a project's `.claude/skills/` if you don't want the plugin flow.
 
@@ -25,7 +26,7 @@ The bundled SessionStart hook then loads the routing/gate context on every sessi
 
 1. **Project `CLAUDE.md`** says: *"For any work in this repo, invoke the `persimmon` skill first."*
 2. **SessionStart hook** (from the plugin) injects the routing + workflow-gate reminder.
-3. **`persimmon` master** loads — routes to one of 9 domain mothers, enforcing the workflow gate on non-trivial work.
+3. **`persimmon` master** loads — announces the project stage (`meta-lifecycle-stage`), then routes to one of 12 domain mothers, enforcing the workflow gate on non-trivial work.
 4. **Domain mother** routes to the right child.
 5. **Child** loads the actual instructions.
 
@@ -50,12 +51,14 @@ New devs and new Claude sessions orient within ~3 reads.
 ### Building a non-trivial feature
 
 1. **Invoke `persimmon`** — the gate routes you to `workflow`
-2. `workflow-brainstorm` → approved spec in `docs/specs/` (must have `## Business meaning`)
-3. `workflow-plan` → plan in `docs/plans/` (EARS criteria + Why-this-matters)
-4. `workflow-execute` → build task by task
-5. `workflow-verify` → `tsc --noEmit`, `eslint`, `prisma validate`, tests, user-workflow checklist
-6. `workflow-code-review` → spec compliance + `quality`/`security` dimensions
-7. `workflow-finish` → CI green, deploy, branch cleanup
+2. `workflow-brainstorm` → approved spec in `docs/specs/` (must have `## Business meaning`; T1/T2 adds a `## Skills applied` footer + REQ IDs — see `workflow-traceability`)
+3. `workflow-spec-review` → red-team the spec; build the RTM (Pass 1) + client-question list
+4. `workflow-flow-review` → derive every user flow, score coverage, walk yourself through each so you can demo it; log gaps
+5. `workflow-plan` → plan in `docs/plans/` (EARS criteria + Why-this-matters + `Implements:` REQ/SCREEN)
+6. `workflow-execute` → build task by task
+7. `workflow-verify` → `tsc --noEmit`, `eslint`, `prisma validate`, tests, user-workflow checklist
+8. `workflow-code-review` → spec compliance + `quality`/`security` dimensions
+9. `workflow-finish` → CI green, deploy, branch cleanup
 
 ### Fixing something trivial
 
@@ -84,6 +87,18 @@ Copy change, one-line Tailwind, README edit, dependency bump, typo? Skip the gat
 1. Don't panic.
 2. `workflow-debug` — check the gotcha table first (force-dynamic, UntrustedHost, CORS, port 8080, staged-config drift)
 3. Re-run `workflow-verify`; redeploy via `infra-railway-deploy`
+
+### Querying the project database (no throwaway scripts)
+
+The install copies a read-only-by-default `db` CLI into `scripts/db.mjs`. After a one-time `npm i -D pg`:
+
+```bash
+npm run db tables                       # list tables + row estimates
+npm run db schema User                  # columns, PK, indexes, FKs
+npm run db "select count(*) from \"User\" where status='pending'"
+```
+
+Mutations need `--write` (local) or `--write --prod` (remote/Railway — deliberate). For tool-native querying with no Bash, `data-db-cli` also documents wiring a read-only Postgres MCP. See `data-db-cli`.
 
 ## Onboarding a new contributor (human or AI)
 

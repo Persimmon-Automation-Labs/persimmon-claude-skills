@@ -28,6 +28,7 @@ Persimmon backend features = Server Actions and Route Handlers over Prisma/Postg
 | `backend-settings-admin` | Editable config/secrets | AES-256-GCM-encrypted `Setting` table, env fallback, per-integration test-connection |
 | `backend-content-management` | CMS / editable content | Typed content blocks, sanitize-on-write, media library w/ required alt, slug→301, `revalidateTag` on publish |
 | `backend-commerce-concurrency` | Limited inventory/slots | Atomic conditional claims, `FOR UPDATE`, advisory locks, checkout-start holds |
+| `backend-account-management` | Real per-person logins + roles (not a shared demo login) | Account/role lifecycle on NextAuth+Prisma: DB-backed auth w/ demo fallback, self-signup → pending → admin role approval, invite links, forgot/set/change password via single-use SHA-256 tokens, admin Accounts panel, the ≥1-admin / promote-not-demote / no-self-lockout invariants |
 
 ## How to route
 
@@ -35,6 +36,7 @@ Persimmon backend features = Server Actions and Route Handlers over Prisma/Postg
 2. **Admin surface** → `backend-admin-panel` (+ `backend-settings-admin` for editable integration config).
 3. **Editable content** → `backend-content-management`.
 4. **Outbound comms** → `backend-notifications`.
+5. **Real user accounts + roles** (signup, invites, password reset, role approval, admin management) → `backend-account-management`. It owns the lifecycle + admin invariants; `backend-admin-panel` renders the panel chrome; `security-nextauth` wires the auth.
 
 ## Persimmon backend defaults — one-screen summary
 

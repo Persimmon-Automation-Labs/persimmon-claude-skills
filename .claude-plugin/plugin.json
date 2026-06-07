@@ -1,7 +1,7 @@
 {
   "name": "persimmon",
-  "description": "Persimmon Automation Labs Claude Code skills — master router, 9 domain mothers (workflow gate forces brainstorm-before-code), and specialist children. Next.js 16 / TypeScript / Prisma+pgvector / Anthropic SDK / NextAuth v5 / Tailwind v4 / Railway stack.",
-  "version": "2.0.0",
+  "description": "Persimmon Automation Labs Claude Code skills — master router, 12 domain mothers (workflow gate forces brainstorm-before-code, with tiered requirements-traceability), and specialist children. Next.js 16 / TypeScript / Prisma+pgvector / Anthropic SDK / NextAuth v5 / Tailwind v4 / Railway stack.",
+  "version": "2.1.0",
   "author": {
     "name": "Persimmon Automation Labs"
   }

@@ -32,6 +32,8 @@ Build a lightweight **Requirements Traceability Matrix** — left column = every
 - **Forward** — every requirement has a home. A SOW item / screen field / EARS line with nothing satisfying it → **missing** model/field/section. Does every SOW bullet map to a spec section? Anything in the spec *beyond* the SOW (added scope) → flag and client-confirm.
 - **Backward** — every spec element earns its place. A model, field, or feature that no requirement needs → **extra** (cut it or justify it). An orphan is as much a finding as a gap.
 
+**Make the RTM mechanical, tiered to the project (`workflow-traceability`).** Per the tiering matrix (`project-type` × `project-stage`), at T1/T2 every acceptance criterion carries a stable **`REQ-<PROJ>-<AREA>-<NNN>`** ID with a cited **source** (SOW§ | ADR-NNNN | constitution:<skill>), every screen's ID is its **mockup filename** (`SCREEN-<slug>`), and the registries live in `docs/requirements/`. Then run **`node <persimmon-skills>/scripts/traceability-audit.mjs <docs-root>`** — the mechanical half of this pass: it flags REQ-without-source, FLOW-without-persona/source, broken persona/screen/ADR links, and uncovered screens, and prints the RTM. **But it only checks links among artifacts that exist — it cannot find a requirement nobody wrote.** The forward pass above (every SOW item has a REQ) is still a human read; a green audit is not completeness (ADR-0008). A decision tracing to neither a skill nor a SOW/REQ line must become an **ADR** (`meta-adr-authoring`) — otherwise it's the orphan this pass exists to catch. (T0 projects skip IDs except on money/auth/data criteria.)
+
 For the **data model specifically**, run the validation lenses in `data-schema-design` (replay every screen as Prisma queries, trace every entity lifecycle as enum members, snapshot check, cardinality/join-model check, reconcile vs the real business, write the reports as queries). The blanks in the matrix are the findings.
 
 **Classify every decision with the discriminator** — *would two competent teams, building independently, reach the same answer?*
@@ -92,7 +94,8 @@ The **headline deliverable** is the resulting **short, high-value client-questio
 - [ ] Is the spec scoped to a single coherent implementation, or should it split into phases?
 
 ### Process integrity (was this applied, or improvised?)
-- [ ] Does **every design/IA/architecture decision trace to a skill that was read or research that was run** — not improvisation? Spot-check the nav/IA, the visual decisions, and any "best practice" claim.
+- [ ] Does the spec carry a **`Skills applied:` footer** (which skills were read for which decisions) and a **`Decisions needing research:`** note (what was researched)? An empty footer on a non-trivial spec is itself a finding — the work can't be traced to applied skills. (Tiered: required at T1/T2.)
+- [ ] Does **every design/IA/architecture decision trace to a skill that was read, research that was run, or an ADR** — not improvisation? Spot-check the nav/IA, the visual decisions, and any "best practice" claim.
 - [ ] Were the aspects needing **deep-research** flagged and actually researched (industry IA, pricing, regulatory, unfamiliar APIs), with findings cited?
 
 ### Data & failure handling

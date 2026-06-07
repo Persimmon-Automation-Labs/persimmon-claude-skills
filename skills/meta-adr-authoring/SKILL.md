@@ -24,6 +24,8 @@ ADRs (Architecture Decision Records) capture non-obvious architecture choices in
 
 **Rule of thumb**: if the answer to "why did you do it this way?" takes more than one sentence, it's probably an ADR.
 
+**The orphan rule (this is the per-project ADR home in `workflow-traceability`'s two-homes model).** Write an ADR the moment a decision meets **both**: (1) it traces to **neither a skill you read nor a SOW/REQ line** — if it traces to a skill, the skill is the record; if to the SOW, it's a requirement — **and** (2) it is structural / affects a quality attribute / is hard to reverse (schema shape, auth model, money-state handling, a sync/ownership rule, a 3rd-party seam, a concurrency strategy). A design decision with no skill-home and no SOW-home **is an orphan** unless it becomes an ADR; `traceability-audit` and `workflow-spec-review` flag a design section citing neither a skill nor an ADR as improvisation. By tier (`workflow-traceability` matrix): T0 keeps a single append-only `docs/context/decisions.md`; T1 adds ADRs for the irreversible few; T2 writes an ADR for every engineering decision. The un-fakeable *Alternatives considered* field below is what makes an ADR more than a hallway opinion — a reviewer should reject an ADR that lists none.
+
 ---
 
 ## Step 1: Confirm the Decision Is Ready
