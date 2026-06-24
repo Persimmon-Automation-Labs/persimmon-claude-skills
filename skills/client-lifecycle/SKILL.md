@@ -24,6 +24,7 @@ Persimmon engagements are scoped: the client keeps the code and the keys, no sub
 | `client-seo` | Public-facing pages | Next 16 Metadata API, JSON-LD, `app/sitemap.ts`, `app/robots.ts`, OG, `/llms.txt` |
 | `client-analytics` | Tracking | GA4/GTM via `@next/third-parties`, Meta Pixel, consent gating, conversion events |
 | `client-handoff` | End of engagement | Non-technical admin manual, walkthrough, training agenda; client owns repo + keys |
+| `client-public-site-build` | Building a public website | End-to-end public site on Next.js 16 — ingest, creative direction, Server Components, Railway deploy |
 
 ## How to route
 

@@ -52,6 +52,7 @@ If `.claude/project-type` is missing, ask once and offer to write it.
 | 6. Review before merge | `workflow-code-review` | Two-stage review: spec-compliance vs `docs/specs/`, then Persimmon conventions via the `quality` review-* skills. |
 | 7. Ship and close out | `workflow-finish` | Pre-merge checklist (CI green, force-dynamic audited, env vars set, CLAUDE.md updated) and branch cleanup. |
 | — (cross-cutting model) | `workflow-traceability` | The provenance system behind brainstorm/spec-review/flow-review/plan: the ID namespace, the spine, the tiering matrix (`project-type` × `project-stage`), the docs/ homes, and the `traceability-audit`. Invoke when asked "is this traceable / are all flows covered" or at a demo/handoff gate. |
+| — (punch-list triage) | `workflow-feedback-loop` | Client punch list or post-review feedback → triage → design-question resolution → verified-on-staging close-out → serialized deploy gate. |
 
 ## The escape hatch — `skip workflow:`
 

@@ -54,6 +54,7 @@ Brainstorm-before-code discipline adapted from obra/superpowers for the TS/Prism
 | `workflow-code-review` | Two-stage: spec compliance, then Persimmon conventions |
 | `workflow-finish` | Pre-merge checklist + branch close-out |
 | `workflow-traceability` | The provenance model: ID namespace, the spine, the tiering matrix (project-type × project-stage), docs/ homes, the `traceability-audit` |
+| `workflow-feedback-loop` | Punch-list triage → design-question resolution → verified-on-staging close-out → serialized deploy gate |
 
 ### `stack` mother (4 children)
 | Skill | What it owns |
@@ -72,6 +73,8 @@ Visual, UX, and structural conventions for any UI work — adapted from the Asla
 | `frontend` (mother) | UI routing + one-screen frontend defaults |
 | `frontend-internal-tool-conventions` | Admin/CRM/ops UI — tabular figures, density, status badges, anti-AI-look |
 | `frontend-public-site-conventions` | Marketing/lead-gen — font pairings, 60-30-10 color, editorial scale |
+| `premium-web-method` | Diverge→select→converge pipeline to defeat typicality bias and produce genuinely original sites; includes ai-tell-lint gate |
+| `public-website-creative-direction` | 8-question intake → ~5 distinct concept briefs → section hierarchy → signature element → translation table |
 | `frontend-page-templates` | 8 canonical RSC + Server Action scaffolds; sticky action bar |
 | `frontend-css-architecture` | `globals.css` + `@layer` order, `next/font`, dark mode |
 | `frontend-responsive` | Sidebar vs top nav, hamburger, mobile-first, container queries |
@@ -156,6 +159,7 @@ Bookends of a client engagement — intake/branding at the start, delivery instr
 | `client-seo` | Next 16 Metadata API, JSON-LD, sitemap, robots, OG, llms.txt |
 | `client-analytics` | GA4/GTM, Meta Pixel, consent gating, conversion events |
 | `client-handoff` | Admin manual, walkthrough, training; client owns repo + keys |
+| `client-public-site-build` | End-to-end public website build on Next.js 16 — ingest, creative direction, Server Components, Railway deploy |
 
 ### `domain-legal` mother (4 children)
 | Skill | What it owns |
@@ -191,6 +195,7 @@ All skills target the Persimmon standard stack (see [CLAUDE.md](CLAUDE.md)): Nex
 | [CLAUDE.md](CLAUDE.md) | Stack conventions + skill-authoring rules for this repo |
 | [docs/decisions/](docs/decisions/) | 8 ADRs documenting the structural choices (0005–0008 dogfood the traceability system) |
 | [skills.json](skills.json) | Machine-readable catalog — regenerate via `./scripts/build-registry.sh > skills.json` |
+| [scripts/ai-tell-lint.mjs](scripts/ai-tell-lint.mjs) | Deterministic linter for visual AI-slop tells (purple/indigo utilities = ERROR; Inter/rounded-2xl/pure white = WARN) |
 
 ## Contributing
 

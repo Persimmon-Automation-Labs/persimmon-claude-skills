@@ -21,6 +21,15 @@ An approved plan exists in `docs/plans/`. If not, go to `workflow-plan`.
 3. **Keep the plan updated.** Check off tasks; record any scope change back into the spec (and re-confirm if Business meaning shifts).
 4. **Commit per task** with a business-framed message: what changed for the operator first, technical detail second.
 
+## Background agents on an auto-deploy Railway repo
+
+When fanning out **background** coding agents on a client repo that auto-deploys on push (most Persimmon projects), four rules keep parallelism from corrupting `main`:
+
+1. **Partition by disjoint files.** Map ownership first (which component/action/route each task touches); never let two concurrent agents edit the same file. Most components and Server Actions are disjoint — route tasks accordingly.
+2. **Serialize the shared chokepoints.** Shared CSS/tokens and global layout files are where parallel agents collide. Tell each agent **not** to edit them but to *report* the styles it needs; apply those centrally. Page-scoped components an agent may own outright.
+3. **One deploy gate, through you.** Push auto-deploys on Railway, so commit→push→deploy→staging-verify stays serialized in the orchestrator. Commit **only complete, disjoint** agent output — never let a half-built agent's files ride along on a push.
+4. **A standing brief, not re-explanation.** Point every agent at `CLAUDE.md` + `.claude/project-rules.md` + a short `docs/AGENT-BRIEF.md` (stack, canonical patterns, no-dup rule, deploy/verify flow) so you ground them once, not per dispatch.
+
 ## Commit message convention
 
 ```

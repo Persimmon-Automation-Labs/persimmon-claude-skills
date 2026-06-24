@@ -192,6 +192,19 @@ import * as Dialog from "@radix-ui/react-dialog";
 - **Public:** full nav must still be **one line** here; if it doesn't fit, collapse to the hamburger at this width — never wrap or stack labels.
 - **Side gutters must hold** — content keeps its `px-[clamp(...)]` gutter and never touches the screen edge (see `frontend-css-architecture` → "Content never touches the viewport edge"). This zone is where the gutter is most often lost.
 
+## Mobile bottom tab bar — for app-like internal tools
+
+For internal tools with ≤5 **frequent** sections — the screens an operator touches multiple times per session — a **bottom tab bar** is the best-practice mobile pattern (the iOS/Android native app convention). When to choose it over a hamburger:
+
+| Pattern | When | Why |
+|---|---|---|
+| **Bottom tab bar** | ≤5 sections, all roughly equal frequency, app-like cadence | Thumb-reachable, single tap, always visible — operators don't have to hunt |
+| **Hamburger drawer** | >5 sections, or a public/occasional-use tool | Bottom bar with >5 items loses meaning; hamburger scales |
+
+Implementation: `fixed bottom-0` bar with icon + label tabs (44px touch targets, `aria-current="page"` on the active tab). The desktop sidebar stays unchanged — the bottom bar is a mobile-only override (hidden at `md:` and above). Record the choice in `.claude/project-rules.md` so it doesn't get reversed later.
+
+**Section hubs as the complement:** on desktop, a section hub (a landing page for a major category) can replace a dedicated sidebar group — the hub lists the sub-sections as a card grid. On mobile, the hub is the "section home" you reach from the bottom tab. This keeps the nav flat and avoids the nested hamburger → sub-menu pattern.
+
 ## Anti-patterns banned
 
 - Hamburger on desktop when the nav fits

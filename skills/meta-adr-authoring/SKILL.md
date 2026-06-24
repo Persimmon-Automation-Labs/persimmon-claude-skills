@@ -233,7 +233,7 @@ Keep the commit scoped — ADRs + any CLAUDE.md link. Don't bundle with unrelate
 ## Anti-Patterns
 
 - Do not write ADRs retroactively for obvious choices (e.g., "use TypeScript"). Document only the non-obvious.
-- Do not rewrite history. If a decision is reversed, write a new ADR that supersedes the old one. Do not edit the old one except to mark status.
+- Do not rewrite history. If a decision is reversed, write a new ADR that supersedes the old one. Do not edit the old one except to mark status. **On a reversal, correct every place the old call is still encoded as FACT** — especially any auto-loaded project memory (a stale rule can steer a whole day of advice wrong) and any prep doc that referenced the overturned decision (add a SUPERSEDED banner, don't let the old framing live on silently). The new ADR's `Status` field documents the supersession; that alone is not enough if the old decision's text is still wired somewhere as a true statement.
 - Do not treat ADRs as design docs. Design docs describe proposed architecture; ADRs record decided architecture. If it's still being debated, it's a design doc, which lives in `notes/`.
 - Do not write ADRs that exceed 40 lines. If the decision needs more space, link to a reference doc and keep the ADR a pointer.
 - Do not invent alternatives that were never considered just to fill the section. "We considered writing our own ORM" is noise if it was never on the table.

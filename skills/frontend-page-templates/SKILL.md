@@ -328,6 +328,21 @@ function EmptyProcesses() {
 
 **Rules:** Real lucide icon, not a Spline blob or unDraw illustration. CTA label is specific ("Create your first process"). For a filtered-but-empty result use a different message ("No processes match the filter. Clear filters?"), not the first-use empty state.
 
+## Fewer pages — derive views, group on the detail, don't proliferate
+
+The strongest operator-tool instinct is to keep adding pages; resist it. These four patterns, earned on real builds, cover most "where does this go?" calls:
+
+- **A "report" / "view" (low stock, overdue, by-status) is a *filtered view of an existing list + a drill-down KPI* — not a new page.** "Items below reorder," "overdue work orders," "open by-status" are *attributes of the rows you already list*, so the answer is: a **status badge** on the row, a **filter preset** for it, and a **dashboard KPI tile that deep-links into the pre-filtered list** (a query param the list page's filter auto-applies on load). A separate page earns its place **only when the shape genuinely differs**: a matrix (item × location), or a timeline (projected view). Two pages listing the same rows with a different column set is the "two lists of the same thing" anti-pattern.
+- **Group a record's related collections + a local KPI strip into TABS on its detail page** (Details · History · KPIs · Related), rather than separate pages or one endless scroll. Compute the KPIs from local data (open count, total, last activity). For a tab that genuinely needs an integration you don't have yet, **show an explicit "available once X is connected" note — never fake the data.**
+- **Show a derived PREVIEW before commit, the live INSTANCE after.** A detail page can preview an entity's steps from its template before the commit event (with an "preview — the live record is created on release" callout), then show the real instance with per-step status afterward. The callout that distinguishes the two is the honesty.
+- **Default-with-override, everywhere a smart default exists.** Pre-fill the field with the derived value and let the user change it — never force re-entry of something the system can infer.
+
+## Small adds → button + modal, never an always-open inline form
+
+The page templates above are for creating a *primary* record (its own page). For a **small add to a collection on an existing page** — a team member, a line item, an adjustment, a file attachment (≈3–5 fields) — the list stays **data-first**: a "New X" / "Add X" button (aligned with the section title or in the action bar) opens a focused **modal** (`frontend-feedback-system` dialog pattern, or Radix `Dialog`). A permanently-open inline form clutters the page, pushes the data down, and reads as unfinished. One reusable dialog shell, content per use — not a bespoke form per collection.
+
+**The edit-toggle rule:** the view-mode and edit-mode must truly swap — `view-only`/`edit-only` classes via a body/wrapper state toggle. A broken toggle that shows the read `<dl>` *and* the edit form simultaneously produces two Save buttons — the tell that the swap isn't working. When the bottom action bar duplicates the top Save, verify the toggle is swapping, not appending.
+
 ## Customization model
 
 **Templates are structure contracts.** Per client: brand color, font, logo, section names, field labels, copy, which templates apply. Stays the same: page anatomy, sticky action bar, button ordering, the verb-labeled create button. Structural deviation gets documented in an ADR (`docs/decisions/`), not silently diverged.

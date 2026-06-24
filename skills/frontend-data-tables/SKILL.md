@@ -309,6 +309,17 @@ function PageLink({ page, disabled, children }: { page: number; disabled: boolea
 
 **Defaults**: 25–50 rows/page; reduce to 10 below 600px. No infinite scroll on admin tables (breaks keyboard nav, back button, total count). No virtualization for typical Persimmon datasets (<10k rows).
 
+## One component for sort / filter / select — never per-page
+
+When a client says *"why does the work-orders search behave differently from the items search?"* the answer is almost always **duplication**: someone reimplemented list behavior per page instead of reusing one component. Every list table behavior lives in a **shared `DataTable` component** driven by typed column definitions — add a page, get the behaviors for free:
+
+- **Click-to-sort via searchParams:** the `DataTable` renders `<Link>` sort-toggle headers that update `?sort=col&dir=asc|desc`; the RSC page reads those params and passes them to Prisma. Zero per-page sort code.
+- **Live filter via searchParams:** the filter bar updates `?q=…&status=…` on change; one server roundtrip, no client state. The `DataTable` receives the filter row as a prop slot — per-page filters differ, the *mechanism* does not.
+- **Row selection + bulk actions:** a `useRowSelection` hook (or a `"use client"` wrapper component) maintains selected ids in local state, reveals a live count + bulk-action bar, and exposes the ids via a hidden form input for the Server Action. One reusable implementation across every list.
+- **The display/sort split (the `data-val` equivalent):** a column that shows a *pretty label* but must sort/filter by a *coded value* defines both — `{ key: "status", getDisplayValue: statusLabel, getSortValue: (r) => r.status }`. The sort URL param carries the coded value; the rendered cell shows the label. This is what lets status enums sort and filter correctly while still reading nicely.
+
+If you find yourself writing sort/filter logic twice for different pages, stop — extend the shared `DataTable`'s column definition API instead.
+
 ## Accessibility non-negotiables
 
 - Real `<table>` + `<caption>` + `<thead>` + `<th scope="col">`. Never `<div role="table">`.

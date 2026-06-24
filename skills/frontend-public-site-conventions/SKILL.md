@@ -105,6 +105,22 @@ Most lead-gen sites ship light-only. Honor `prefers-color-scheme` only if the br
 - **Untouched Tailwind default palette** — `grep` for `indigo-`/`violet-`/`fuchsia-` should return zero
 - **Pastel rainbow accent grids** (three icon boxes in three pastels)
 
+## The craft layer — why a "correct" site still looks AI-generated
+
+A site can pass every gate above — good fonts, no indigo, AA contrast, a real concept — and **still read as slop**, because those test taste-of-*values*, not **authorship of execution**. Template/AI output is competent craft with zero **art direction**: the layer that carries tone, mood, and emotion. Authorship shows up as a few deliberate craft risks executed *consistently*. The highest-leverage levers, roughly in order:
+
+- **Type-scale contrast is the single biggest move.** The AI default is a timid ~2:1 ratio between headline and body. Authored pages run **8:1–10:1** — a genuinely large display (`clamp(2.5rem, 6vw, 5rem)`+) against calm 16–18px body. Big type reads as confidence; even type reads as a template.
+- **Tighten display type** (headlines only): letter-spacing **−0.02 to −0.04em**, line-height **0.95–1.05**. The loose "safe" tracking/leading applied everywhere is a tell. Body stays at normal tracking and ~1.5 leading.
+- **Off-white surfaces, near-black ink — never pure.** Background `#FAF8F5`/`#F7F5F2`, not `#FFFFFF`; text `#1A1A1A`/`#0f172a`, not `#000`. Pure-white-under-near-black with uniform spacing is the flat, lit-from-nowhere AI look.
+- **Break the template layout.** The AI skeleton is: centered hero → a **row of 3 even icon-cards** → alternating image-left/image-right → centered CTA. Earn authorship with **one off-balance choice executed throughout**: an asymmetric hero split (a 5:8 / 1:1.6 ratio, content weighted to one side, not 50/50), a broken-grid section, type or an image **bleeding off the viewport edge**, intentional whitespace *imbalance* (dense then vast) instead of uniform padding. Pick one or two and repeat them — don't make every section weird (that reads as error, not intent).
+- **One signature motion, not fade-in-on-everything.** Scroll-triggered fade on every section is the **#1 template tell**. Replace it with a single crafted moment that fits the concept (a counter that ticks, one hover that reveals) and leave the rest still. Honor `prefers-reduced-motion`.
+- **Texture beats flat-perfect.** A subtle grain/noise overlay, a paper or material ground, a real edge — anything signalling a hand was here — separates authored from rendered. Optional, but a cheap escape from the sterile-gradient surface.
+- **One consistent image treatment**, not a stock grab-bag: a single duotone/crop/grade on every photo reads as art-directed. No generic 3D blobs, gradient-mesh backgrounds, or "diverse team laughing at laptop" stock. (Real photos > optimized real > generated-generic > stock.)
+
+Each lever is a deliberate risk that **must trace to the concept** (`public-website-creative-direction`) — the off-balance ratio *because* the brand is "80% engineering, 20% showmanship"; the grain *because* the materials are "paper and steel." A craft risk with no concept behind it is just a different template.
+
+**Proven values — apply as the baseline:** Three separate human craft-passes converged on the same numbers: 6:1–8:1 type scale, display weight 400–460 at −0.02/−0.035em tracking, off-white/near-black surfaces, hairlines not solid borders, asymmetric ratios instead of three even cards, editorial lists instead of card grids, one image grade, one signature motion, section padding capped at ~80px not 128px+. Build ships *from* these values; the concept may override one with a provenance line, but defaulting to safe is the failure that ships generic. If a finished page still reads as generic, diff it against these values before adding anything.
+
 ## Spacing — generous, atmospheric
 
 Marketing uses 3–4× the section padding of tools. Use the `--spacing` scale from `stack-tailwind-tokens`:
@@ -142,6 +158,19 @@ import { Mail } from "lucide-react";
 ```
 
 A11y: `aria-hidden` on decorative icons; icon-only links need a visually-hidden label.
+
+## Transactional pages are tools, not landing pages
+
+Cart, checkout, order-confirmation, and account are **utility** surfaces — density and scannability beat breathing room, the opposite of a marketing page. When the same "too long / too much blank space before the content" complaint recurs across several of these, it's **one systemic cause** (a marketing-sized hero + full-width stacked sections applied to a utility page) — fix the shared root, then the page-specifics. The moves:
+
+- **Demote the hero to a utility header** (a tight line + the key id), no tagline/subtitle. The page's job is to act, not to sell.
+- **Two columns on desktop** (stacks on mobile): the primary content/receipt left, secondary facts + actions in a compact right rail — this alone halves the height vs full-width stacking.
+- **Cart shows the subtotal only; the full breakdown (tax, shipping, fees) belongs on checkout** — those depend on fulfillment details the user hasn't entered yet. Cart = items + subtotal + Checkout; checkout = itemized total.
+- **A status tracker is a horizontal stepper** (Received → Preparing → Ready), not stacked lines; actions are one tidy row with the destructive one (Cancel) visually quieter.
+
+## Nav CTA hierarchy — one filled, at most one outlined, no duplicate destinations
+
+A nav bar is a strict three tiers: **quiet text links = navigation** (they take you somewhere); **one filled/solid primary CTA** = the single highest-value action; **at most one outlined/ghost secondary CTA**. Never more than ~2 buttons or the hierarchy collapses, and **never two filled**. The common bug: a nav *link* and a nav *button* pointing at the **same destination** reads as redundant — relabel the button to signal intent so it's the transactional path, not a duplicate. (Button-vs-link encodes action-vs-destination; see `frontend-interaction-patterns`.)
 
 ## Emoji: never in chrome
 
@@ -200,9 +229,12 @@ What makes a public site look produced by v0/Lovable/ChatGPT in 10 minutes:
 
 Before showing a bespoke public page to the client (or returning it from a subagent), run an explicit tell audit and **remove every hit** — don't wait for the client to catch them:
 
-1. **Walk the tells table** against the actual page; flag each hit by name (centered-hero+3-card grid, single italic accent word, `01/02` numbers, eyebrow-over-every-heading, marquee, uniform radius/shadow, untouched shadcn defaults). Fix them, don't rationalize.
-2. **Swap test:** *"Could this same page, colors and logo swapped, ship for any other client?"* If yes, it's too generic — personality must be load-bearing, so changing the brand makes the whole page fall apart.
-3. **Real-content test:** is the client's actual copy, real photos, and true story doing the work — or is invented filler standing in?
+0. **Run `node scripts/ai-tell-lint.mjs`** — the mechanical gate that catches what a manual sweep misses: Tailwind indigo/violet/purple palette and the purple→purple gradient hero **fail hard**; Inter/Geist, pure `#fff`/`#000`, blanket `rounded-2xl`, and feature-card emoji **warn**. Treat any error as a hard fix. **Bans live in the linter, not in your prose** — never write "no purple/Inter" into a spec or prompt, because naming a default primes it; let `ai-tell-lint` enforce it downstream.
+1. **Walk the tells table** against the actual page; flag each hit by name (centered-hero+3-card grid, single italic accent word, `01/02` numbers, eyebrow-over-every-heading, marquee, uniform radius/shadow, untouched shadcn defaults, fade-in-on-every-section). Fix them, don't rationalize.
+2. **The hero-clarity gate:** does the hero state in plain words *what the company does and for whom* before any stylistic flourish? If a clever line stands alone with no plain descriptor, it fails.
+3. **Swap test:** *"Could this same page, colors and logo swapped, ship for any other client?"* If yes, it's too generic — personality must be load-bearing, so changing the brand makes the whole page fall apart.
+4. **Real-content test:** is the client's actual copy, real photos, and true story doing the work — or is invented filler standing in?
+5. **The defect-gate walk:** the bugs clients catch by hand. (a) **Row alignment** — do cards/columns align with the *longest and shortest real content*, or does an uneven blurb push one CTA lower? (b) **Dead space beside a narrow heading** — is a ~30ch header sitting alone in a full-width row with an empty right half? Pair it, span it, or fill it. (c) **Duplicate-destination CTAs** — two buttons with the same label/target? (d) **List completeness** — is every real team member/product/location rendered, or was one silently dropped?
 
 For bespoke public screens this audit is part of the **definition of done** — `workflow-brainstorm`'s bespoke-design gate points here.
 

@@ -189,6 +189,28 @@ Avoid N+1: fetch a collection in one query with `include`/`select`, not one quer
 | Cache | tag reads, `revalidateTag` on publish |
 | Editor | constrained toolbar + preview + Zod validation |
 
+## Attaching photos by reference — the join table pattern
+
+When the same photo can appear on multiple records (a team member photo used in multiple sections, a product image shared across listings), **store photos in a `Media` table and attach them via a join table**, not by duplicating the `mediaId` field on each record.
+
+```prisma
+model RecordMedia {
+  recordId   String
+  mediaId    String
+  record     YourModel @relation(fields: [recordId], references: [id])
+  media      Media     @relation(fields: [mediaId], references: [id])
+  isPrimary  Boolean   @default(false)  // denormalized for read-path speed
+  sortOrder  Int       @default(0)
+  createdAt  DateTime  @default(now())
+  @@id([recordId, mediaId])
+  @@index([recordId])
+}
+```
+
+The **`isPrimary` flag** is a denormalized cache — keep it consistent via the join table write logic (clear all others when setting a new primary) so existing read paths that `.include({ media: { where: { isPrimary: true } } })` keep working without migration.
+
+**A bulk matcher page beats N edit pages** when you need to associate many records to many photos at once (e.g., after a photo import). Build a single page that lists unmatched photos + likely record candidates (fuzzy name match) with a one-click accept/reject — this is orders of magnitude faster than opening each record separately.
+
 ## Anti-patterns banned
 
 - One HTML blob per page instead of typed, structured content.

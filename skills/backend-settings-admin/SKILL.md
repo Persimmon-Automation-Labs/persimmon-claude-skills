@@ -144,6 +144,15 @@ export async function testStripe(): Promise<ActionResult> {
 | Test | per-integration Server Action, Owner-gated |
 | Audit | who/key/when on every save, never the value |
 
+## Integrating a 3rd-party system you lack credentials for yet
+
+When a build adds a 3rd-party integration (payment processor, KDS, POS, accounting) and credentials aren't available until client go-live:
+
+- **Adapter pattern (anti-corruption layer).** Wrap the 3rd-party call behind a `PaymentProvider` / `KDSAdapter` interface. The implementation is selected by a `PAYMENT_PROVIDER` setting (`mock` → `sandbox` → `prod`), not by if/else littered through the codebase.
+- **A local mock of the service** (same HTTP contract, realistic UI) so you can build, demo, and verify with zero credentials. The mock runs **in-process** — server-to-self HTTP loopback is fragile on Railway; use a direct function call with the same interface.
+- **Demo/mock bypass MUST fail-closed + be hard-gated to non-prod.** `if (process.env.NODE_ENV === "production" && provider === "mock") throw new Error(...)` — a mock that can reach production is a security hole. Gate it, test that the gate holds, document it in an ADR.
+- **The Settings admin screen** (`group: "payments"`, etc.) lets the client flip from `mock` → `sandbox` → `prod` and enter their credentials without a redeploy.
+
 ## Anti-patterns banned
 
 - Integration keys available only in env / hard-coded — not client-editable.

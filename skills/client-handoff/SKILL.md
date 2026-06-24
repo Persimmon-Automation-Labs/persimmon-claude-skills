@@ -204,6 +204,7 @@ Persimmon Automation Labs
 ## Handoff Checklist
 
 - [ ] Admin user created with the client's preferred login
+- [ ] **Demoable seed data in place** — every flow shows something; seed is idempotent (fixed IDs / `upsert`) so an empty screen never makes a demo look broken; every status/state the manual covers has at least one seeded record
 - [ ] `docs/handoff/USER-MANUAL.md` generated from the real codebase + screenshots
 - [ ] `docs/handoff/QUICK-REFERENCE.md` generated
 - [ ] Handoff email drafted

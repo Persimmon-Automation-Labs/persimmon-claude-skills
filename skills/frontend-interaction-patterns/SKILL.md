@@ -185,6 +185,16 @@ In-page left sidebar (`next/link` items, active state highlighted) grouped into 
 - Custom dropdown when native `<select>` would work.
 - Tab switch doing a full page reload (drive via URL/state).
 
+## Branded controls, never browser-default
+
+Native browser UI reads as generic/unfinished — the same "this looks template-built" tell as untouched shadcn defaults. Replace the defaults with the project's components, **once and reusably**:
+
+- **`window.confirm()` → a branded `AlertDialog`** (`frontend-feedback-system`). One shared AlertDialog driven by context/props — every destructive action routes through it; never `window.confirm()` which renders outside your styles and blocks the thread.
+- **Native validation bubble ("Please fill out this field") → inline error.** Keep the HTML constraints (`required`/`min`/`type`) for semantics and the base browser block, but suppress the native bubble (`noValidate` on the form + listen for `invalid` events or use React Hook Form). Render your own message under the field with a red outline; clear it on change once valid.
+- **`<select>` → custom chevron** (`appearance-none` + background-image SVG arrow). Honest limit: the *open* option list is OS-drawn and can't be styled with CSS — fully custom needs a Radix `Select`; don't fake it.
+
+Each is a single shared mechanism, not a per-page reimplementation. Bundle these into a project's component library once; resist building bespoke confirm dialogs or validation patterns per form.
+
 ## One-screen defaults
 
 - Cancel/back LEFT, primary RIGHT — enforced by `mr-auto` on the secondary.

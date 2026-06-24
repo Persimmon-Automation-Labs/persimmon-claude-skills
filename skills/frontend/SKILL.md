@@ -19,7 +19,9 @@ Persimmon frontend = Next.js 16 Server Components by default, Tailwind v4 tokens
 | Skill | When to use | Owns |
 |---|---|---|
 | `frontend-internal-tool-conventions` | Admin / CRM / ops UIs | Typography (tabular figures), color, density, status badges, anti-AI-look |
-| `frontend-public-site-conventions` | Marketing / lead-gen sites | Font pairings, 60-30-10 color, editorial type scale, anti-AI-look |
+| `frontend-public-site-conventions` | Marketing / lead-gen sites | Font pairings, 60-30-10 color, editorial type scale, anti-AI-look, craft layer |
+| `premium-web-method` | Resisting AI generic look | Diverge→select→converge pipeline; ai-tell-lint gate; the 5 tests |
+| `public-website-creative-direction` | Design direction for a public site | 8-question intake → 5 distinct concept briefs → signature element → translation table |
 | `frontend-page-templates` | Starting any page | 8 canonical RSC + Server Action scaffolds (List, Detail, Edit, Create, Dashboard, Wizard, Settings, Empty State); sticky action bar |
 | `frontend-css-architecture` | Theme/CSS setup | `globals.css` + `@layer` order, `next/font` loading, dark mode (defers token scale to `stack-tailwind-tokens`) |
 | `frontend-responsive` | Layout across breakpoints | Sidebar (internal) vs top nav (public), hamburger, mobile-first, container queries |
